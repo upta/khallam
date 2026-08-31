@@ -18,6 +18,7 @@
     "lexicon:resolve": "node tools/lexicon-cli/review-flags.mjs resolve",
     "lexicon:flag": "node tools/lexicon-cli/review-flags.mjs flag",
     "lexicon:review": "node tools/lexicon-cli/review-server.mjs",
+    "lexicon:gap": "node tools/lexicon-cli/gap.mjs",
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
     "game:dev": "npm run dev -w @klallam/fishybird",
     "game:lan": "npm run dev -w @klallam/fishybird -- --host",

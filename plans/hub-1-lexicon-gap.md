@@ -16,13 +16,13 @@ spelled differently &mdash; so you know exactly which rows to add to
 ## Background you need to read the steps
 
 `original-site.html` sits at the top of the repo. It is the page that becomes the new
-site, and it currently carries its own copy of 51 Klallam words plus a dozen more in
+site, and it currently carries its own copy of 57 Klallam words plus a dozen more in
 its pronunciation guide. That copy was written in a chat, not taken from the lexicon,
 so some of it disagrees with what is already in `lexicon/lexicon.json`. Four
 disagreements are visible already, on the words for *strong*, *cow*, *stick* and
 *cut it*.
 
-None of that is decided here. The point of this plan is to turn "51 words in a file"
+None of that is decided here. The point of this plan is to turn "57 words in a file"
 into "here are the 30-odd rows to add and the 4 to ask a speaker about".
 
 The comparison has to happen twice over, because the two failure modes look nothing
@@ -33,14 +33,14 @@ thing that actually corrupts a lexicon.
 
 ## Steps
 
-### 1. Read the words out of the page
+### 1. Read the words out of the page  ✅
 
 A new command, `npm run lexicon:gap`, that opens `original-site.html`, picks out its
 word rows and its pronunciation examples, and prints them with the chapter each one
 belongs to. It reads the file as text and matches the rows by pattern; it never runs
 the page's code.
 
-**Done when:** the command prints 51 words under five chapter headings, plus the
+**Done when:** the command prints 57 words under five chapter headings, plus the
 pronunciation examples under a heading of their own.
 
 ### 2. Say which ones the lexicon already has
