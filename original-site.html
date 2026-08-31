@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun With Klallam</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:#F4F7FF; --white:#FFFFFF; --text:#1A2035; --soft:#4A5570; --border:#D5DDEF;
+  --blue:#1252AA; --blue2:#1565C0; --bluepale:#E6EFFF;
+  --green:#1B6E44; --green2:#2E9A60; --greenpale:#E3F7ED;
+  --teal:#00766A; --tealpale:#E0F4F2;
+  --orange:#C84B00; --orangepale:#FFF0E6;
+  --purple:#621B8E; --purplepale:#F5E8FF;
+  --red:#B71C1C; --redpale:#FFEBEE;
+  --sh:0 2px 10px rgba(18,82,170,.10); --shl:0 6px 24px rgba(18,82,170,.15);
+}
+body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* HEADER */
+header { background:var(--blue); color:#fff; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:62px; box-shadow:0 3px 14px rgba(18,82,170,.35); position:sticky; top:0; z-index:100; }
+.logo { display:flex; align-items:center; gap:10px; }
+.logo-icon { font-size:1.7rem; }
+.logo-text { font-size:1.35rem; font-weight:900; }
+.logo-sub  { font-size:.7rem; font-weight:700; opacity:.65; letter-spacing:.1em; text-transform:uppercase; }
+.hdr-score { background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25); border-radius:20px; padding:6px 16px; font-size:.85rem; font-weight:800; }
+
+/* HERO */
+.hero { background:linear-gradient(130deg,var(--blue) 0%,#0A3A85 100%); color:#fff; padding:38px 24px 44px; text-align:center; }
+.hero h1 { font-size:clamp(1.8rem,4vw,2.7rem); font-weight:900; margin-bottom:8px; }
+.hero p  { font-size:1rem; opacity:.85; max-width:500px; margin:0 auto 26px; font-weight:600; }
+.hero-stats { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+.hstat { background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.22); border-radius:12px; padding:10px 20px; font-size:.82rem; font-weight:700; }
+.hstat span { font-size:1.35rem; display:block; font-weight:900; }
+
+/* PAGE */
+.page { max-width:960px; margin:0 auto; padding:30px 20px 60px; }
+.sec-title { font-size:1.4rem; font-weight:900; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+.sec-title::after { content:''; flex:1; height:2px; background:linear-gradient(90deg,var(--border),transparent); }
+
+/* SUBJECT GRID */
+.subject-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:14px; margin-bottom:36px; }
+.scard { background:#fff; border:2.5px solid var(--border); border-radius:16px; padding:22px 16px; cursor:pointer; transition:all .2s; text-align:center; box-shadow:var(--sh); position:relative; overflow:hidden; }
+.scard::before { content:''; position:absolute; top:0; left:0; right:0; height:5px; }
+.scard.blue::before   { background:var(--blue); }
+.scard.green::before  { background:var(--green); }
+.scard.teal::before   { background:var(--teal); }
+.scard.orange::before { background:var(--orange); }
+.scard.purple::before { background:var(--purple); }
+.scard:hover { transform:translateY(-4px); box-shadow:var(--shl); }
+.scard.active.blue   { background:var(--bluepale);   border-color:var(--blue); }
+.scard.active.green  { background:var(--greenpale);  border-color:var(--green); }
+.scard.active.teal   { background:var(--tealpale);   border-color:var(--teal); }
+.scard.active.orange { background:var(--orangepale); border-color:var(--orange); }
+.scard.active.purple { background:var(--purplepale); border-color:var(--purple); }
+.s-emoji { font-size:2.5rem; margin-bottom:8px; display:block; }
+.s-name  { font-size:1rem; font-weight:800; margin-bottom:3px; }
+.s-count { font-size:.76rem; color:var(--soft); font-weight:600; }
+
+/* GAME AREA */
+.game-area { background:#fff; border-radius:20px; box-shadow:var(--shl); border:2.5px solid var(--border); overflow:hidden; margin-bottom:32px; display:none; }
+.game-area.visible { display:block; animation:slideIn .3s ease; }
+@keyframes slideIn { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+.game-hdr { padding:14px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--border); flex-wrap:wrap; gap:10px; }
+.ghdr-left { display:flex; align-items:center; gap:10px; }
+.subj-badge { font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:4px 12px; border-radius:20px; }
+.sb-blue   { background:var(--bluepale);   color:var(--blue); }
+.sb-green  { background:var(--greenpale);  color:var(--green); }
+.sb-teal   { background:var(--tealpale);   color:var(--teal); }
+.sb-orange { background:var(--orangepale); color:var(--orange); }
+.sb-purple { background:var(--purplepale); color:var(--purple); }
+
+.game-tabs { display:flex; gap:4px; }
+.gtab { padding:7px 13px; background:var(--bg); border:1.5px solid var(--border); border-radius:8px; font-family:'Nunito',sans-serif; font-size:.8rem; font-weight:700; cursor:pointer; transition:all .18s; color:var(--soft); }
+.gtab:hover { background:#fff; }
+.gtab.active { color:#fff; border-color:transparent; }
+.gtab.active.blue   { background:var(--blue); }
+.gtab.active.green  { background:var(--green); }
+.gtab.active.teal   { background:var(--teal); }
+.gtab.active.orange { background:var(--orange); }
+.gtab.active.purple { background:var(--purple); }
+
+.game-body { padding:26px 22px; }
+
+/* FLASHCARD */
+.fc-wrap { display:flex; flex-direction:column; align-items:center; gap:18px; }
+.fc-prog-wrap { width:100%; max-width:480px; }
+.fc-info { display:flex; justify-content:space-between; font-size:.76rem; font-weight:700; color:var(--soft); margin-bottom:5px; }
+.fc-bar  { height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
+.fc-fill { height:100%; border-radius:3px; transition:width .4s ease; }
+.fill-blue   { background:var(--blue); }
+.fill-green  { background:var(--green); }
+.fill-teal   { background:var(--teal); }
+.fill-orange { background:var(--orange); }
+.fill-purple { background:var(--purple); }
+
+.fc-scene { width:100%; max-width:480px; height:230px; perspective:1000px; cursor:pointer; }
+.fc-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,0,.2,1); }
+.fc-scene.flipped .fc-inner { transform:rotateY(180deg); }
+.fc-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:26px; text-align:center; border:2.5px solid; }
+.fc-front { background:#fff; }
+.fc-front.blue   { border-color:var(--blue);   box-shadow:0 4px 18px rgba(18,82,170,.13); }
+.fc-front.green  { border-color:var(--green);  box-shadow:0 4px 18px rgba(27,110,68,.13); }
+.fc-front.teal   { border-color:var(--teal);   box-shadow:0 4px 18px rgba(0,118,106,.13); }
+.fc-front.orange { border-color:var(--orange); box-shadow:0 4px 18px rgba(200,75,0,.13); }
+.fc-front.purple { border-color:var(--purple); box-shadow:0 4px 18px rgba(98,27,142,.13); }
+.fc-back { transform:rotateY(180deg); color:#fff; }
+.fc-back.blue   { background:var(--blue);   border-color:var(--blue); }
+.fc-back.green  { background:var(--green);  border-color:var(--green); }
+.fc-back.teal   { background:var(--teal);   border-color:var(--teal); }
+.fc-back.orange { background:var(--orange); border-color:var(--orange); }
+.fc-back.purple { background:var(--purple); border-color:var(--purple); }
+.fc-tag  { font-size:.68rem; font-weight:800; letter-spacing:.18em; text-transform:uppercase; opacity:.5; margin-bottom:10px; }
+.fc-word { font-family:'Lora',serif; font-size:clamp(1.6rem,4vw,2.3rem); font-weight:600; margin-bottom:8px; line-height:1.2; }
+.fc-pron { font-size:.88rem; font-style:italic; opacity:.6; }
+.fc-eng  { font-size:clamp(1.3rem,3vw,1.8rem); font-weight:800; margin-bottom:6px; }
+.fc-hint { font-size:.72rem; font-weight:700; color:var(--soft); letter-spacing:.06em; }
+.fc-ctrls { display:flex; gap:12px; align-items:center; }
+
+.btn-circ { width:46px; height:46px; border-radius:50%; border:2px solid var(--border); background:#fff; font-size:1.15rem; cursor:pointer; transition:all .18s; display:flex; align-items:center; justify-content:center; box-shadow:var(--sh); color:var(--text); }
+.btn-circ:hover { transform:scale(1.1); box-shadow:var(--shl); border-color:#aab; }
+.btn-pill { padding:10px 20px; border-radius:24px; border:2px solid var(--border); background:#fff; font-family:'Nunito',sans-serif; font-size:.8rem; font-weight:800; cursor:pointer; transition:all .18s; color:var(--soft); box-shadow:var(--sh); }
+.btn-pill:hover { background:var(--bg); }
+
+/* QUIZ */
+.qbox { border-radius:14px; padding:30px; text-align:center; margin-bottom:22px; color:#fff; }
+.qbox.blue   { background:linear-gradient(135deg,var(--blue),#083580); }
+.qbox.green  { background:linear-gradient(135deg,var(--green),#0E4A2A); }
+.qbox.teal   { background:linear-gradient(135deg,var(--teal),#004040); }
+.qbox.orange { background:linear-gradient(135deg,var(--orange),#8C3200); }
+.qbox.purple { background:linear-gradient(135deg,var(--purple),#3E0060); }
+.q-prompt { font-size:.68rem; font-weight:800; letter-spacing:.2em; opacity:.7; text-transform:uppercase; margin-bottom:14px; }
+.q-word   { font-family:'Lora',serif; font-size:clamp(1.8rem,5vw,2.7rem); font-weight:600; }
+.q-row    { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.q-label  { font-size:.78rem; font-weight:700; color:var(--soft); }
+.q-num    { font-size:1.05rem; font-weight:900; }
+.q-opts   { display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+.opt { padding:15px 12px; background:#fff; border:2px solid var(--border); border-radius:12px; font-family:'Nunito',sans-serif; font-size:.97rem; font-weight:700; cursor:pointer; transition:all .18s; color:var(--text); box-shadow:var(--sh); line-height:1.3; }
+.opt:hover:not(:disabled) { border-color:#99aacf; transform:translateY(-2px); box-shadow:var(--shl); }
+.opt.correct { background:var(--greenpale); border-color:var(--green); color:var(--green); }
+.opt.wrong   { background:var(--redpale);   border-color:var(--red);   color:var(--red); opacity:.65; }
+.opt:disabled { cursor:default; }
+.q-fb { text-align:center; min-height:26px; margin-top:16px; font-size:.97rem; font-weight:800; }
+.fb-ok  { color:var(--green); }
+.fb-bad { color:var(--red); }
+
+/* MATCH */
+.match-note { text-align:center; margin-bottom:18px; font-size:.88rem; color:var(--soft); font-weight:700; }
+.match-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:580px; margin:0 auto; }
+.match-col  { display:flex; flex-direction:column; gap:9px; }
+.mbtn { padding:13px 14px; border-radius:10px; text-align:center; cursor:pointer; transition:all .2s; font-family:'Nunito',sans-serif; font-size:.92rem; font-weight:700; border:2.5px solid; line-height:1.3; }
+.mk { background:var(--bluepale); border-color:var(--blue);   color:var(--blue); }
+.me { background:#fff;            border-color:var(--border); color:var(--text); }
+.mbtn.sel  { transform:scale(1.04); }
+.mk.sel    { background:var(--blue);  color:#fff; box-shadow:0 4px 14px rgba(18,82,170,.28); }
+.me.sel    { background:var(--text);  color:#fff; border-color:var(--text); }
+.mbtn.matched { background:var(--greenpale); border-color:var(--green); color:var(--green); pointer-events:none; opacity:.7; }
+.mbtn.bad { animation:shake .35s ease; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+.match-status { text-align:center; margin-top:18px; font-weight:800; color:var(--soft); font-size:.88rem; }
+
+/* WORD LIST */
+.wlist { display:grid; gap:9px; }
+.wrow { display:flex; align-items:center; gap:14px; background:#fff; border:2px solid var(--border); border-radius:10px; padding:12px 16px; box-shadow:var(--sh); transition:border-color .18s; }
+.wrow:hover { border-color:#aabbd8; }
+.w-kl { font-family:'Lora',serif; font-size:1.05rem; font-weight:600; min-width:140px; }
+.w-ar { color:var(--border); }
+.w-en { font-weight:700; flex:1; }
+.w-pr { font-size:.78rem; font-style:italic; color:var(--soft); }
+
+/* COMPLETE */
+.done { text-align:center; padding:44px 20px; }
+.done .emoji { font-size:3.5rem; margin-bottom:14px; }
+.done h2 { font-size:1.75rem; font-weight:900; margin-bottom:8px; }
+.done p  { color:var(--soft); font-size:.97rem; margin-bottom:22px; font-weight:600; }
+
+/* ACTION BTN */
+.btn-act { display:block; margin:18px auto 0; padding:12px 34px; border:none; border-radius:24px; font-family:'Nunito',sans-serif; font-size:.88rem; font-weight:800; cursor:pointer; transition:all .2s; color:#fff; box-shadow:var(--sh); }
+.btn-act:hover { transform:translateY(-2px); box-shadow:var(--shl); opacity:.92; }
+.btn-act.blue   { background:var(--blue); }
+.btn-act.green  { background:var(--green); }
+.btn-act.teal   { background:var(--teal); }
+.btn-act.orange { background:var(--orange); }
+.btn-act.purple { background:var(--purple); }
+
+/* PRONUNCIATION GUIDE */
+.pg { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:13px; }
+.pc { background:#fff; border:2px solid var(--border); border-radius:12px; padding:15px; box-shadow:var(--sh); }
+.ps { font-family:'Lora',serif; font-size:1.75rem; font-weight:600; color:var(--blue); margin-bottom:5px; }
+.pd { font-size:.83rem; color:var(--soft); font-weight:600; line-height:1.5; }
+.pe { font-size:.76rem; color:var(--teal); font-weight:700; margin-top:4px; }
+
+@media(max-width:500px) {
+  .q-opts   { grid-template-columns:1fr; }
+  .match-grid { grid-template-columns:1fr; }
+  .game-hdr { flex-direction:column; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <span class="logo-icon">🦅</span>
+    <div>
+      <div class="logo-text">Fun With Klallam</div>
+      <div class="logo-sub">Nəxʷsƛ̕ay̕əmúcən</div>
+    </div>
+  </div>
+  <div class="hdr-score">⭐ <span id="total-score">0</span> pts</div>
+</header>
+
+<div class="hero">
+  <h1>Learn the Klallam Language</h1>
+  <p>Explore words &amp; phrases of the S'Klallam people through flashcards, quizzes &amp; matching games.</p>
+  <div class="hero-stats">
+    <div class="hstat"><span>51</span>Words</div>
+    <div class="hstat"><span>5</span>Chapters</div>
+    <div class="hstat"><span>3</span>Games</div>
+  </div>
+</div>
+
+<div class="page">
+  <div class="sec-title">🎯 Choose a Chapter to Study</div>
+  <div class="subject-grid" id="subj-grid"></div>
+
+  <div class="game-area" id="game-area">
+    <div class="game-hdr">
+      <div class="ghdr-left">
+        <span id="g-icon" style="font-size:1.5rem"></span>
+        <span class="subj-badge" id="g-badge"></span>
+        <strong id="g-name"></strong>
+      </div>
+      <div class="game-tabs" id="g-tabs"></div>
+    </div>
+    <div class="game-body" id="g-body"></div>
+  </div>
+
+  <div class="sec-title">🔤 Pronunciation Quick Guide</div>
+  <div class="pg" id="pg"></div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────
+const SUBJECTS = [
+  { id:'intrans', label:'Ch. 1.1 — Intransitive Verbs', emoji:'🏃', color:'blue',
+    words:[
+      {k:'hiyáʔ',  e:'go / leave'},
+      {k:'ʔítt',   e:'sleep'},
+      {k:'kʷánəŋət',e:'run'},
+      {k:'nə́qəŋ', e:'dive'},
+      {k:'kʷə́yəŋ',e:'fly'},
+      {k:'ɬáw̓',   e:'run away'},
+      {k:'štə́ŋ',  e:'walk'},
+      {k:'xʷítəŋ', e:'jump'},
+      {k:'šə́wi',  e:'grow'},
+      {k:'ʔíc̓əŋ', e:'get dressed'},
+      {k:'x̣ʷúŋ',  e:'cry'},
+    ]
+  },
+  { id:'trans', label:'Ch. 1.2 — Transitive Verbs', emoji:'🤝', color:'green',
+    words:[
+      {k:'kʷənáŋət', e:'help it/him/her/them'},
+      {k:'k̓ʷə́nt',   e:'look at it'},
+      {k:'c̓čə́t',    e:'wake it'},
+      {k:'x̣áčt',    e:'dry it'},
+      {k:'ɬíc̓t',    e:'cut it'},
+      {k:'ƛ̓kʷít',   e:'hold it'},
+      {k:'šč̓ə́t',    e:'hit it'},
+      {k:'sáʔət',   e:'lift it'},
+      {k:'míst',    e:'choose it'},
+      {k:'x̣čít',    e:'know it'},
+      {k:'tkʷə́t',   e:'break it (long object)'},
+      {k:'ƛ̓kʷə́t',  e:'take it'},
+    ]
+  },
+  { id:'nouns', label:'Ch. 4 — Nouns', emoji:'🏠', color:'teal',
+    words:[
+      {k:'tán',      e:'mother'},
+      {k:'cə́t',      e:'father'},
+      {k:'cáčc',     e:'uncle or aunt'},
+      {k:'snə́xʷɬ',  e:'canoe'},
+      {k:'ʔáʔyəŋ',  e:'house'},
+      {k:'tálə',     e:'money'},
+      {k:'húʔpt',    e:'deer'},
+      {k:'sqáx̣aʔ',  e:'dog'},
+      {k:'píšpš',    e:'cat'},
+      {k:'qʷúʔ',     e:'water'},
+      {k:'swéʔwəs',  e:'young man'},
+      {k:'q̓áʔŋi',   e:'young woman'},
+      {k:'sčáʔčaʔ',  e:'friend'},
+      {k:'sqʷáy',    e:'word'},
+      {k:'súɬ',      e:'road'},
+      {k:'šč̓ə́yi',   e:'stick'},
+    ]
+  },
+  { id:'adj', label:'Ch. 6 — Adjectives', emoji:'✨', color:'orange',
+    words:[
+      {k:'ʔə́y̓',      e:'good'},
+      {k:'ʔəsx̣áʔəs', e:'bad'},
+      {k:'čə́q',       e:'big'},
+      {k:'ƛ̓úƛ̓aʔ',   e:'small / few'},
+      {k:'ŋə́n̓',      e:'many / much'},
+      {k:'ʔiyám̓',    e:'strong'},
+      {k:'x̣ə́w̓əs',   e:'new'},
+      {k:'kʷɬčə́q',   e:'old (animate)'},
+      {k:'ʔəsc̓áx̣ɬ', e:'old / worn out (thing)'},
+      {k:'x̣ʷə́ŋ',     e:'fast'},
+      {k:'pə́q̓',      e:'white'},
+      {k:'ʔənəq̓íx̣',  e:'black'},
+    ]
+  },
+  { id:'pronouns', label:'Subject Pronouns', emoji:'🙋', color:'purple',
+    words:[
+      {k:'cn',       e:'I (intransitive)'},
+      {k:'st',       e:'we (intransitive)'},
+      {k:'cxʷ',      e:'you (intransitive)'},
+      {k:'cxʷ hay',  e:'you all / you folks (intransitive)'},
+      {k:'-s',       e:'he / she / it / they (transitive suffix)'},
+      {k:'cə',       e:'the / that (specific article)'},
+    ]
+  }
+];
+
+const PRONUN = [
+  {s:'ʔ',d:'Glottal stop — the catch in "uh-oh"',e:'ʔítt = sleep'},
+  {s:'ə',d:'Schwa — like "uh" in "above" (often drops in fast speech)',e:'nəkʷ = you'},
+  {s:'x̣',d:'Throaty "h" — deep in the throat (uvular fricative)',e:'sqáx̣aʔ = dog'},
+  {s:'xʷ',d:'Velar "hw" — like blowing with rounded lips',e:'nəxʷ = your'},
+  {s:'ɬ',d:'Voiceless lateral — like Welsh "ll" or breathed "hl"',e:'ɬíxʷ = three'},
+  {s:'č',d:'Like English "ch" in "church"',e:'čáy = work'},
+  {s:'ƛ̓',d:'Ejective lateral — a popping "tl!" sound',e:'ƛ̓áɬəŋ = salt'},
+  {s:'q qʷ',d:'"k" sounds pronounced far back in the throat',e:'qʷúʔ = water'},
+  {s:"p̓ t̓ k̓",d:'Ejective stops — the same sounds with a sharp release burst',e:'sk̓ʷtúʔ = raven'},
+  {s:'á é í ə́ ú',d:'Accent mark = stressed vowel — louder and slightly longer',e:'tán = mother'},
+  {s:'m̓ n̓ y̓',d:'Glottalized sonorants — tense your throat while saying them',e:'séʔyaʔ = grandparent'},
+  {s:'š',d:'Like English "sh" in "shoe"',e:'músməs = cow'},
+];
+
+// ── STATE ─────────────────────────────
+let activeSub = null, activeGame = 'fc';
+let totalPts = 0;
+let fcDeck=[], fcIdx=0, fcFlipped=false;
+let qPool=[], qIdx=0, qScore=0, qTotal=0, qAnswered=false;
+let mPairs=[], mSelK=null, mSelE=null, mMatched=0;
+
+// ── BOOT ──────────────────────────────
+function boot(){
+  const sg = document.getElementById('subj-grid');
+  sg.innerHTML = SUBJECTS.map(s=>`
+    <div class="scard ${s.color}" id="sc-${s.id}" onclick="pick('${s.id}')">
+      <span class="s-emoji">${s.emoji}</span>
+      <div class="s-name">${s.label}</div>
+      <div class="s-count">${s.words.length} words · 3 games</div>    </div>`).join('');
+  const pg = document.getElementById('pg');
+  pg.innerHTML = PRONUN.map(p=>`
+    <div class="pc">
+      <div class="ps">${p.s}</div>
+      <div class="pd">${p.d}</div>
+      <div class="pe">e.g. ${p.e}</div>
+    </div>`).join('');
+}
+
+// ── SUBJECT PICK ──────────────────────
+function pick(id){
+  document.querySelectorAll('.scard').forEach(c=>c.classList.remove('active'));
+  document.getElementById('sc-'+id).classList.add('active');
+  activeSub = SUBJECTS.find(s=>s.id===id);
+  activeGame = 'fc';
+  showArea();
+  setTimeout(()=>document.getElementById('game-area').scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+function showArea(){
+  const s=activeSub, ga=document.getElementById('game-area');
+  ga.classList.add('visible');
+  document.getElementById('g-icon').textContent=s.emoji;
+  const badge=document.getElementById('g-badge');
+  badge.className=`subj-badge sb-${s.color}`;
+  badge.textContent=s.label;
+  const TABS=[['fc','📇 Flashcards'],['quiz','❓ Quiz'],['match','🔗 Match'],['list','📖 Words']];
+  document.getElementById('g-tabs').innerHTML=TABS.map(([t,l])=>`
+    <button class="gtab ${t===activeGame?'active '+s.color:''}" onclick="switchGame('${t}')">${l}</button>`).join('');
+  renderGame();
+}
+
+function switchGame(g){ activeGame=g; showArea(); }
+
+function renderGame(){
+  switch(activeGame){
+    case 'fc':    initFC();    break;
+    case 'quiz':  initQuiz();  break;
+    case 'match': initMatch(); break;
+    case 'list':  initList();  break;
+  }
+}
+
+// ── FLASHCARDS ────────────────────────
+function initFC(){
+  fcDeck=shuf([...activeSub.words]); fcIdx=0; fcFlipped=false; drawFC();
+}
+function drawFC(){
+  const s=activeSub, w=fcDeck[fcIdx], pct=Math.round((fcIdx+1)/fcDeck.length*100);
+  document.getElementById('g-body').innerHTML=`
+    <div class="fc-wrap">
+      <div class="fc-prog-wrap">
+        <div class="fc-info"><span>Card ${fcIdx+1} of ${fcDeck.length}</span><span>${pct}%</span></div>
+        <div class="fc-bar"><div class="fc-fill fill-${s.color}" style="width:${pct}%"></div></div>
+      </div>
+      <div class="fc-scene" id="fcs" onclick="flipFC()">
+        <div class="fc-inner" id="fci">
+          <div class="fc-face fc-front ${s.color}">
+            <div class="fc-tag">Klallam</div>
+            <div class="fc-word">${w.k}</div>
+          </div>
+          <div class="fc-face fc-back ${s.color}">
+            <div class="fc-tag">English</div>
+            <div class="fc-eng">${w.e}</div>
+          </div>
+        </div>
+      </div>
+      <div class="fc-hint">Tap card to flip &nbsp;·&nbsp; ← → arrow keys to navigate</div>
+      <div class="fc-ctrls">
+        <button class="btn-circ" onclick="prevFC()">←</button>
+        <button class="btn-pill" onclick="shuffleFC()">🔀 Shuffle</button>
+        <button class="btn-circ" onclick="nextFC()">→</button>
+      </div>
+    </div>`;
+}
+function flipFC(){ fcFlipped=!fcFlipped; document.getElementById('fcs').classList.toggle('flipped',fcFlipped); }
+function nextFC(){ fcIdx=(fcIdx+1)%fcDeck.length; fcFlipped=false; drawFC(); }
+function prevFC(){ fcIdx=(fcIdx-1+fcDeck.length)%fcDeck.length; fcFlipped=false; drawFC(); }
+function shuffleFC(){ fcDeck=shuf([...activeSub.words]); fcIdx=0; fcFlipped=false; drawFC(); }
+
+// ── QUIZ ──────────────────────────────
+function initQuiz(){
+  qPool=shuf([...activeSub.words]); qIdx=0; qScore=0; qTotal=0; qAnswered=false; drawQ();
+}
+function drawQ(){
+  const s=activeSub;
+  if(qIdx>=qPool.length){
+    addPts(qScore*5);
+    document.getElementById('g-body').innerHTML=`
+      <div class="done">
+        <div class="emoji">${qScore>=Math.ceil(qPool.length*.75)?'🎉':'👍'}</div>
+        <h2>${qScore>=Math.ceil(qPool.length*.75)?'Excellent!':'Good effort!'}</h2>
+        <p>${qScore} of ${qTotal} correct — +${qScore*5} points earned!</p>
+        <button class="btn-act ${s.color}" onclick="initQuiz()">Play Again</button>
+      </div>`;
+    return;
+  }
+  const q=qPool[qIdx];
+  const wrongs=shuf(qPool.filter(w=>w.e!==q.e)).slice(0,3);
+  const opts=shuf([...wrongs,q]);
+  qAnswered=false;
+  document.getElementById('g-body').innerHTML=`
+    <div class="q-row">
+      <span class="q-label">Question ${qIdx+1} / ${qPool.length}</span>
+      <span class="q-num">✅ ${qScore}</span>
+    </div>
+    <div class="qbox ${s.color}">
+      <div class="q-prompt">What does this Klallam word mean?</div>
+      <div class="q-word">${q.k}</div>
+    </div>
+    <div class="q-opts" id="q-opts">
+      ${opts.map(o=>`<button class="opt" onclick="checkQ(this,'${esc(o.e)}','${esc(q.e)}')">${o.e}</button>`).join('')}
+    </div>
+    <div class="q-fb" id="qfb"></div>`;
+}
+function checkQ(btn,chosen,correct){
+  if(qAnswered)return;
+  qAnswered=true; qTotal++;
+  document.querySelectorAll('.opt').forEach(b=>{ b.disabled=true; if(b.textContent.trim()===correct)b.classList.add('correct'); });
+  if(chosen===correct){ btn.classList.add('correct'); qScore++; document.getElementById('qfb').innerHTML='<span class="fb-ok">✓ Correct! +5 pts</span>'; }
+  else { btn.classList.add('wrong'); document.getElementById('qfb').innerHTML=`<span class="fb-bad">✗ Answer: ${correct}</span>`; }
+  setTimeout(()=>{ qIdx++; drawQ(); },1500);
+}
+
+// ── MATCH ─────────────────────────────
+function initMatch(){
+  mPairs=shuf([...activeSub.words]).slice(0,6);
+  mSelK=null; mSelE=null; mMatched=0;
+  drawMatch();
+}
+function drawMatch(){
+  const kW=shuf([...mPairs]), eW=shuf([...mPairs]);
+  document.getElementById('g-body').innerHTML=`
+    <p class="match-note">Match each Klallam word to its English meaning — select one from each column!</p>
+    <div class="match-grid">
+      <div class="match-col">
+        ${kW.map(w=>`<button class="mbtn mk" id="mk-${eid(w.k)}" data-v="${eid(w.k)}" onclick="selM(this,'k')">${w.k}</button>`).join('')}
+      </div>
+      <div class="match-col">
+        ${eW.map(w=>`<button class="mbtn me" id="me-${eid(w.k)}" data-v="${eid(w.k)}" onclick="selM(this,'e')">${w.e}</button>`).join('')}
+      </div>
+    </div>
+    <div class="match-status" id="mstatus">Matched: 0 / ${mPairs.length}</div>`;
+}
+function selM(btn,type){
+  if(btn.classList.contains('matched'))return;
+  if(type==='k'){
+    document.querySelectorAll('.mk.sel').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel'); mSelK=btn;
+  } else {
+    document.querySelectorAll('.me.sel').forEach(b=>b.classList.remove('sel'));
+    btn.classList.add('sel'); mSelE=btn;
+  }
+  if(mSelK&&mSelE){
+    // Capture refs locally before clearing state
+    const bK=mSelK, bE=mSelE;
+    mSelK=null; mSelE=null;
+    if(bK.dataset.v===bE.dataset.v){
+      bK.classList.remove('sel'); bK.classList.add('matched');
+      bE.classList.remove('sel'); bE.classList.add('matched');
+      mMatched++; addPts(10);
+      const st=document.getElementById('mstatus');
+      if(st) st.textContent=`Matched: ${mMatched} / ${mPairs.length}`;
+      if(mMatched===mPairs.length){
+        const pairCount=mPairs.length;
+        const col=activeSub.color;
+        setTimeout(()=>{
+          const gb=document.getElementById('g-body');
+          if(gb) gb.innerHTML=`
+            <div class="done">
+              <div class="emoji">🎊</div>
+              <h2>All Matched!</h2>
+              <p>Perfect! +${pairCount*10} points earned.</p>
+              <button class="btn-act ${col}" onclick="initMatch()">Play Again</button>
+            </div>`;
+        },500);
+      }
+    } else {
+      bK.classList.add('bad'); bE.classList.add('bad');
+      setTimeout(()=>{
+        bK.classList.remove('bad','sel');
+        bE.classList.remove('bad','sel');
+      },400);
+    }
+  }
+}
+
+// ── WORD LIST ─────────────────────────
+function initList(){
+  const s=activeSub;
+  document.getElementById('g-body').innerHTML=`
+    <div class="wlist">
+      ${s.words.map(w=>`
+        <div class="wrow">
+          <div class="w-kl" style="color:var(--${s.color})">${w.k}</div>
+          <div class="w-ar">→</div>
+          <div class="w-en">${w.e}</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+// ── HELPERS ───────────────────────────
+function shuf(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]; } return a; }
+function esc(s){ return (s||'').replace(/'/g,"\\'"); }
+function eid(s){ return (s||'').replace(/[^a-zA-Z0-9]/g,'_'); }
+function addPts(n){ totalPts+=n; document.getElementById('total-score').textContent=totalPts; }
+
+document.addEventListener('keydown',e=>{
+  if(activeGame!=='fc')return;
+  if(e.key==='ArrowRight')nextFC();
+  if(e.key==='ArrowLeft') prevFC();
+  if(e.key===' '){ e.preventDefault(); flipFC(); }
+});
+
+boot();
+</script>
+</body>
+</html>
