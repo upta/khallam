@@ -43,7 +43,7 @@ the page's code.
 **Done when:** the command prints 57 words under five chapter headings, plus the
 pronunciation examples under a heading of their own.
 
-### 2. Say which ones the lexicon already has
+### 2. Say which ones the lexicon already has  ✅
 
 Extend the command to match each word against `lexicon/lexicon.json` by its English
 meaning, and mark it as known or new.
