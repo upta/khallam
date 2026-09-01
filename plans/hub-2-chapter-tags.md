@@ -39,7 +39,7 @@ called&hellip;".
 **Done when:** the file exists and lists every chapter on the new site page, with the
 labels it uses today.
 
-### 2. Tidy tags on the way in
+### 2. Tidy tags on the way in  ✅
 
 Change the import so a tag is lowercased, trimmed, and de-duplicated before it is
 stored. A row reading `Nouns , nouns` becomes the single tag `nouns`.

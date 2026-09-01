@@ -92,9 +92,15 @@ export function rowsToRecords(rows) {
   return records;
 }
 
+/**
+ * Tags name chapters, so a stray capital or space must not make a second chapter.
+ * Case is folded away deliberately: a tag can never be case-meaningful.
+ */
 export function parseTags(value) {
-  return value
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
+  const seen = new Set();
+  for (const tag of value.split(",")) {
+    const cleaned = tag.trim().toLowerCase();
+    if (cleaned) seen.add(cleaned);
+  }
+  return [...seen];
 }
