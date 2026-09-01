@@ -73,7 +73,7 @@ the existing check that the file is not open in Excel has to run every time too.
 **Done when:** `npm run lexicon:import -- --apply`, with nothing to import, reports that
 it tidied the id column, and running it a second time changes the file no further.
 
-### 3. Look at it in Excel
+### 3. Look at it in Excel  ✅
 
 Open the spreadsheet and read down the id column.
 
