@@ -55,7 +55,7 @@ reach the page. One thing to carry into step 6: Phaser finds its container by as
 document for it by name, which cannot see inside the seal, so step 6 must hand Phaser
 the element itself rather than its name.
 
-### 2. Create the shared kit
+### 2. Create the shared kit &mdash; done
 
 A new package, `packages/game-kit`. It defines what a game is: a name, an icon, whether
 it fills the screen or sits in a panel, and a single function the site calls to start

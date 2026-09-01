@@ -6,6 +6,7 @@
   "description": "Browser games for teaching the Klallam language. Client-side only, no backend.",
   "workspaces": [
     "lexicon",
+    "packages/*",
     "games/*"
   ],
   "scripts": {

@@ -4,7 +4,7 @@ import { REPO_ROOT } from "./lib.mjs";
 
 // Klallam text belongs in the lexicon package. If a non-ASCII character shows up
 // in game or tool source, an agent has inlined a word where it cannot be verified.
-const SCAN_ROOTS = ["games", "tools"];
+const SCAN_ROOTS = ["games", "packages", "tools"];
 const SCAN_EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".html", ".css"]);
 const SKIP_DIRS = new Set(["node_modules", "dist", ".git"]);
 
