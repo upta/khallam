@@ -29,7 +29,7 @@ So before you tag 51 rows, the tags column needs a fixed list of what it accepts
 
 ## Steps
 
-### 1. Write down the list of chapters
+### 1. Write down the list of chapters  ✅
 
 A new file, `lexicon/tags.json`. Each entry has the tag as typed in the spreadsheet, a
 label for how it should read on the site, and a number saying where it sorts. It holds

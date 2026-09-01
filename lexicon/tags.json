@@ -1,0 +1,9 @@
+{
+  "chapters": [
+    { "tag": "intrans", "label": "Ch. 1.1 \u2014 Intransitive Verbs", "order": 1 },
+    { "tag": "trans", "label": "Ch. 1.2 \u2014 Transitive Verbs", "order": 2 },
+    { "tag": "nouns", "label": "Ch. 4 \u2014 Nouns", "order": 3 },
+    { "tag": "adj", "label": "Ch. 6 \u2014 Adjectives", "order": 4 },
+    { "tag": "pronouns", "label": "Subject Pronouns", "order": 5 }
+  ]
+}
