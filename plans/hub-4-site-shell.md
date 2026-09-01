@@ -103,13 +103,17 @@ to three caught out of ten with the header still above it. FishyBird on its own 
 unchanged, because a game placed without a list is handed every playable word. The
 sound has to be confirmed by ear.
 
-### 5. Make the address bar keep up
+### 5. Make the address bar keep up &mdash; done
 
 The chosen chapter and game are reflected in the address, so the back button goes back a
 step, refreshing lands in the same place, and a link can be sent to someone.
 
 **Done when:** you can open a chapter, start FishyBird, press back twice and end up on
 the bare page, then paste the address into a new tab and land back in the game.
+
+Both were checked. Going back once leaves the chapter open with the game stopped, and
+twice returns to the bare page; opening the address directly lands on the chosen chapter
+with FishyBird ready.
 
 ### 6. Publish the site instead of the game
 

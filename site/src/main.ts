@@ -72,7 +72,10 @@ function chapterCard(chapter: Chapter): HTMLElement {
   words.textContent = count === 1 ? "1 word" : `${count} words`;
 
   card.append(name, words);
-  card.addEventListener("click", () => openChapter(chapter));
+  card.addEventListener("click", () => {
+    history.pushState(null, "", addressFor(chapter.tag, null));
+    showChapter(chapter, true);
+  });
   return card;
 }
 
@@ -83,7 +86,23 @@ function message(text: string): HTMLElement {
   return note;
 }
 
-function openChapter(chapter: Chapter): void {
+function addressFor(chapterTag: string | null, gameId: string | null): string {
+  const params = new URLSearchParams();
+  if (chapterTag !== null) params.set("chapter", chapterTag);
+  if (gameId !== null) params.set("game", gameId);
+  const query = params.toString();
+  return query === "" ? location.pathname : `${location.pathname}?${query}`;
+}
+
+function closePanel(): void {
+  for (const card of document.querySelectorAll(".scard")) card.classList.remove("active");
+  panel?.classList.remove("visible");
+  panelTabs?.replaceChildren();
+  // Empties the panel, which is also what stops a game that was running in it.
+  panelBody?.replaceChildren();
+}
+
+function showChapter(chapter: Chapter, scroll: boolean): void {
   if (panel === null || panelTabs === null || panelBody === null) return;
   const decoration = DECORATION[chapter.tag];
 
@@ -101,7 +120,7 @@ function openChapter(chapter: Chapter): void {
   panelTabs.replaceChildren(...GAMES.map((game) => gameTab(game, chapter)));
   panelBody.replaceChildren(message("Choose a game to start."));
   panel.classList.add("visible");
-  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (scroll) panel.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function gameTab(game: GameTab, chapter: Chapter): HTMLElement {
@@ -110,11 +129,14 @@ function gameTab(game: GameTab, chapter: Chapter): HTMLElement {
   tab.className = "gtab";
   tab.dataset["game"] = game.id;
   tab.textContent = `${game.icon} ${game.label}`;
-  tab.addEventListener("click", () => void startGame(game, chapter));
+  tab.addEventListener("click", () => {
+    history.pushState(null, "", addressFor(chapter.tag, game.id));
+    void showGame(game, chapter);
+  });
   return tab;
 }
 
-async function startGame(game: GameTab, chapter: Chapter): Promise<void> {
+async function showGame(game: GameTab, chapter: Chapter): Promise<void> {
   if (panelTabs === null || panelBody === null) return;
   const decoration = DECORATION[chapter.tag];
 
@@ -140,4 +162,19 @@ function playableWordIds(): string[] {
   return getWords({ requireAudio: true, includeNeedsReview: false }).map((entry) => entry.id);
 }
 
+/** The address is what says which chapter and game are open, so back and reload work. */
+function showWhatTheAddressAsksFor(scroll: boolean): void {
+  const params = new URLSearchParams(location.search);
+  const chapter = getChapters().find((item) => item.tag === params.get("chapter"));
+  if (chapter === undefined) {
+    closePanel();
+    return;
+  }
+  showChapter(chapter, scroll);
+  const game = GAMES.find((item) => item.id === params.get("game"));
+  if (game !== undefined) void showGame(game, chapter);
+}
+
 if (grid !== null) grid.replaceChildren(...getChapters().map(chapterCard));
+window.addEventListener("popstate", () => showWhatTheAddressAsksFor(false));
+showWhatTheAddressAsksFor(true);
