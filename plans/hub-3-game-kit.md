@@ -67,7 +67,7 @@ Nothing uses it yet.
 
 **Done when:** `npm run ci` passes with the new package in place.
 
-### 3. Move the recordings plumbing into the kit
+### 3. Move the recordings plumbing into the kit &mdash; done
 
 The code that serves the lexicon's recordings while you are developing, and copies them
 into the published site, currently lives in FishyBird's build settings. Move it into the

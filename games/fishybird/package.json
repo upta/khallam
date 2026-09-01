@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@klallam/game-kit": "*",
     "@klallam/lexicon": "*",
     "phaser": "^3.90.0"
   },
