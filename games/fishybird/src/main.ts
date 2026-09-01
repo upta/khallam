@@ -1,3 +1,4 @@
+import { ensureKlallamFont } from "@klallam/game-kit";
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
@@ -497,6 +498,8 @@ class RoundScene extends Phaser.Scene {
     playWord(word.audioUrl);
   }
 }
+
+void ensureKlallamFont();
 
 new Phaser.Game({
   type: Phaser.AUTO,

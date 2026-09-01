@@ -2,16 +2,6 @@
   color-scheme: dark;
 }
 
-/* Klallam stacks combining marks that system fonts misplace, so the banner waits
-   for this font rather than swapping in whatever is already on the machine. */
-@font-face {
-  font-family: "Charis";
-  src: url("/fonts/Charis-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-
 html,
 body {
   margin: 0;

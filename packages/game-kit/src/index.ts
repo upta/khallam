@@ -1,10 +1,12 @@
 import { getWords, type LexiconEntry } from "@klallam/lexicon";
 import { playRecording, playRecordingUrl, recordingUrl } from "./audio";
+import { ensureKlallamFont } from "./font";
 import { awardPoints, getPoints, storageFor, type GameStorage } from "./storage";
 
 export type { GameStorage } from "./storage";
 export { getPoints } from "./storage";
 export { recordingUrl } from "./audio";
+export { ensureKlallamFont, KLALLAM_FONT_FAMILY } from "./font";
 
 /** Whether the game wants the whole screen or is happy in a panel on a page. */
 export type GameLayout = "fullscreen" | "panel";
@@ -82,6 +84,9 @@ export function registerGame(definition: GameDefinition): string {
 
     connectedCallback(): void {
       if (this.teardown !== null) return;
+
+      // Every game shows Klallam, so none of them has to remember to ask for the font.
+      void ensureKlallamFont();
 
       const root = this.shadowRoot ?? this.attachShadow({ mode: "open" });
       const style = document.createElement("style");

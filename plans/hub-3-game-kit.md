@@ -77,7 +77,7 @@ the recordings in the published site.
 **Done when:** `npm run game:dev` still plays recordings, and `npm run site:build` still
 produces one `audio` folder with every recording in it.
 
-### 4. Move the Klallam font into the kit
+### 4. Move the Klallam font into the kit &mdash; done
 
 The Charis font is a loose file in FishyBird's `public` folder. That folder gets copied
 only when FishyBird is built as a whole page of its own, which is what happens today and

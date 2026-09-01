@@ -1,4 +1,4 @@
 import type { Plugin } from "vite";
 
-/** Serves the lexicon recordings in development and copies them into the build. */
-export declare function lexiconAudio(): Plugin[];
+/** Serves the shared recordings and Klallam font in development, and ships them in the build. */
+export declare function klallamAssets(): Plugin[];
