@@ -1,0 +1,343 @@
+/* The page as drafted in original-site.html. Two differences: the English fonts are
+   shipped with the site instead of fetched from Google, and Klallam renders in Charis. */
+
+@font-face {
+  font-family: "Nunito";
+  src: url("./fonts/Nunito-Variable-Latin.woff2") format("woff2");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lora";
+  src: url("./fonts/Lora-Variable-Latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f4f7ff;
+  --white: #ffffff;
+  --text: #1a2035;
+  --soft: #4a5570;
+  --border: #d5ddef;
+  --blue: #1252aa;
+  --bluepale: #e6efff;
+  --green: #1b6e44;
+  --greenpale: #e3f7ed;
+  --teal: #00766a;
+  --tealpale: #e0f4f2;
+  --orange: #c84b00;
+  --orangepale: #fff0e6;
+  --purple: #621b8e;
+  --purplepale: #f5e8ff;
+  --sh: 0 2px 10px rgba(18, 82, 170, 0.1);
+  --shl: 0 6px 24px rgba(18, 82, 170, 0.15);
+  /* Klallam stacks combining marks that other fonts misplace, so it never falls back. */
+  --klallam-font: "Charis", serif;
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Anything showing a Klallam word wears this. */
+.klallam {
+  font-family: var(--klallam-font);
+}
+
+/* HEADER */
+header {
+  background: var(--blue);
+  color: #fff;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 62px;
+  box-shadow: 0 3px 14px rgba(18, 82, 170, 0.35);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  font-size: 1.7rem;
+}
+.logo-text {
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+.logo-sub {
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.65;
+  letter-spacing: 0.1em;
+}
+.hdr-score {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(130deg, var(--blue) 0%, #0a3a85 100%);
+  color: #fff;
+  padding: 38px 24px 44px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.hero p {
+  font-size: 1rem;
+  opacity: 0.85;
+  max-width: 500px;
+  margin: 0 auto;
+  font-weight: 600;
+}
+
+/* PAGE */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 30px 20px 60px;
+}
+.sec-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-title::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* CHAPTER GRID */
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.scard {
+  background: #fff;
+  border: 2.5px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  box-shadow: var(--sh);
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+  color: inherit;
+  width: 100%;
+}
+.scard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+}
+.scard.blue::before {
+  background: var(--blue);
+}
+.scard.green::before {
+  background: var(--green);
+}
+.scard.teal::before {
+  background: var(--teal);
+}
+.scard.orange::before {
+  background: var(--orange);
+}
+.scard.purple::before {
+  background: var(--purple);
+}
+.scard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shl);
+}
+.scard.active.blue {
+  background: var(--bluepale);
+  border-color: var(--blue);
+}
+.scard.active.green {
+  background: var(--greenpale);
+  border-color: var(--green);
+}
+.scard.active.teal {
+  background: var(--tealpale);
+  border-color: var(--teal);
+}
+.scard.active.orange {
+  background: var(--orangepale);
+  border-color: var(--orange);
+}
+.scard.active.purple {
+  background: var(--purplepale);
+  border-color: var(--purple);
+}
+.s-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  display: block;
+}
+.s-name {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+.s-count {
+  font-size: 0.76rem;
+  color: var(--soft);
+  font-weight: 600;
+}
+
+/* GAME AREA */
+.game-area {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: var(--shl);
+  border: 2.5px solid var(--border);
+  overflow: hidden;
+  margin-bottom: 32px;
+  display: none;
+}
+.game-area.visible {
+  display: block;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.game-hdr {
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--border);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ghdr-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.g-icon {
+  font-size: 1.5rem;
+}
+.subj-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.sb-blue {
+  background: var(--bluepale);
+  color: var(--blue);
+}
+.sb-green {
+  background: var(--greenpale);
+  color: var(--green);
+}
+.sb-teal {
+  background: var(--tealpale);
+  color: var(--teal);
+}
+.sb-orange {
+  background: var(--orangepale);
+  color: var(--orange);
+}
+.sb-purple {
+  background: var(--purplepale);
+  color: var(--purple);
+}
+.game-tabs {
+  display: flex;
+  gap: 4px;
+}
+.gtab {
+  padding: 7px 13px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: "Nunito", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--soft);
+}
+.gtab:hover {
+  background: #fff;
+}
+.gtab.active {
+  color: #fff;
+  border-color: transparent;
+}
+.gtab.active.blue {
+  background: var(--blue);
+}
+.gtab.active.green {
+  background: var(--green);
+}
+.gtab.active.teal {
+  background: var(--teal);
+}
+.gtab.active.orange {
+  background: var(--orange);
+}
+.gtab.active.purple {
+  background: var(--purple);
+}
+.game-body {
+  padding: 26px 22px;
+}
+
+@media (max-width: 500px) {
+  .game-hdr {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

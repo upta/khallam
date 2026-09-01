@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fun With Klallam</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <span class="logo-icon">&#x1F985;</span>
+        <div>
+          <div class="logo-text">Fun With Klallam</div>
+        </div>
+      </div>
+      <div class="hdr-score">&#x2B50; <span id="total-score">0</span> pts</div>
+    </header>
+
+    <div class="hero">
+      <h1>Learn the Klallam Language</h1>
+      <p>
+        Explore words &amp; phrases of the S'Klallam people through flashcards, quizzes
+        &amp; matching games.
+      </p>
+    </div>
+
+    <div class="page">
+      <div class="sec-title">&#x1F3AF; Choose a Chapter to Study</div>
+      <div class="subject-grid" id="subj-grid"></div>
+
+      <div class="game-area" id="game-area">
+        <div class="game-hdr">
+          <div class="ghdr-left">
+            <span id="g-icon" class="g-icon"></span>
+            <span class="subj-badge" id="g-badge"></span>
+          </div>
+          <div class="game-tabs" id="g-tabs"></div>
+        </div>
+        <div class="game-body" id="g-body"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

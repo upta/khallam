@@ -1,0 +1,19 @@
+{
+  "name": "@klallam/site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fun With Klallam: the page the chapters and the games live on.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@klallam/game-kit": "*",
+    "@klallam/lexicon": "*"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

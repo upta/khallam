@@ -8,6 +8,9 @@ reachable from it.
 
 - No flashcards, quiz or matching game yet. Those are plan 5. Until then the panel
   offers FishyBird only.
+- No narrowing of FishyBird's words to the chosen chapter. The mechanism for handing a
+  game its words goes in, and every later game is handed its chapter's list through it.
+  FishyBird alone is handed every word for now.
 - No pronunciation guide. It needs a kind of data the lexicon does not hold yet
   &mdash; a sound, a description of it, and an example &mdash; and that deserves its own
   plan.
@@ -50,7 +53,7 @@ cannot become the place where words get inlined.
 `packages` had already been added when the kit was built, so this only had to add
 `site`. Proved both ways with a throwaway file.
 
-### 2. Stand the page up with nothing in it
+### 2. Stand the page up with nothing in it &mdash; done
 
 A new `site` workspace holding the page's header, its opening banner, its chapter area
 and its empty game panel &mdash; the look exactly as drafted, minus the invented
@@ -61,6 +64,11 @@ for Klallam.
 **Done when:** `npm run site:dev` opens a page that looks like the draft, with an empty
 chapter area and no game panel showing, and it asks nothing of any address outside the
 site.
+
+Checked with the network watched: nothing at all is requested outside the site. One
+thing came out that the draft had &mdash; the Klallam name of the language under the
+title in the header. It is a word, so it can only come from the lexicon, and the lexicon
+does not hold it. It goes back in when it is in the spreadsheet.
 
 ### 3. Build the chapters from the lexicon
 
@@ -73,12 +81,17 @@ you tagged in the spreadsheet.
 ### 4. Open a game in the panel
 
 Choosing a chapter opens the panel below it with a row of tabs. FishyBird is the only
-tab for now. Choosing it starts the game, inside the panel, on that chapter's words. The
-game is only downloaded when it is chosen, so the page stays quick for someone who is
-just browsing.
+tab for now. Choosing it starts the game, inside the panel. The game is only downloaded
+when it is chosen, so the page stays quick for someone who is just browsing.
+
+The site hands a game the exact words to use, as a list of ids, rather than the game
+going and choosing for itself. That is how every game is given its words: the activities
+in plan 5 are handed their chapter's list, matching the page as drafted. FishyBird is
+handed every playable word for now, so narrowing it to a chapter later is a change on
+the site and nothing at all inside a game.
 
 **Done when:** choosing a chapter and then FishyBird plays a full round with audio on
-that chapter's words, and the site's header stays visible above it.
+the words the site handed it, and the site's header stays visible above it.
 
 ### 5. Make the address bar keep up
 
@@ -99,14 +112,15 @@ listing words at `/khallam/review/`.
 
 ## Risks
 
-- **This changes what is at the published address.** Anyone who has bookmarked
-  FishyBird gets the new page instead. That is the intent, but it happens the moment
-  this lands on `main`.
+- **This changes what is at the published address.** FishyBird is replaced by the new
+  page. Nothing is published yet and nobody has the address, so this costs nothing here;
+  it is written down only because it stops being free once the site is live.
 - **A chapter with too few words breaks a round.** FishyBird needs ten words with
   recordings to build a round, and needs enough distinct translations to fill the fish.
   A thinly tagged chapter, or one whose words have no recordings yet, will not be
   playable. The page should say so plainly rather than failing; expect at least one
-  chapter to hit this until recordings exist.
+  chapter to hit this until recordings exist. Handing FishyBird every word for now
+  postpones this rather than solving it, and it bites on the day its list is narrowed.
 - **Broken audio is silent.** If the recordings end up in the wrong place, the game
   still loads and looks correct and simply never speaks. Step 6 has to be checked by
   playing, not by looking.

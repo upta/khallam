@@ -12,5 +12,10 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["lexicon/src/**/*.ts", "packages/*/src/**/*.ts", "games/*/src/**/*.ts"]
+  "include": [
+    "lexicon/src/**/*.ts",
+    "packages/*/src/**/*.ts",
+    "games/*/src/**/*.ts",
+    "site/src/**/*.ts"
+  ]
 }

@@ -7,7 +7,8 @@
   "workspaces": [
     "lexicon",
     "packages/*",
-    "games/*"
+    "games/*",
+    "site"
   ],
   "scripts": {
     "lexicon:seed": "node tools/lexicon-cli/seed.mjs",
@@ -24,6 +25,8 @@
     "game:dev": "npm run dev -w @klallam/fishybird",
     "game:lan": "npm run dev -w @klallam/fishybird -- --host",
     "game:build": "npm run build -w @klallam/fishybird",
+    "site:dev": "npm run dev -w @klallam/site",
+    "site:lan": "npm run dev -w @klallam/site -- --host",
     "site:build": "npm run game:build && node tools/site/build-site.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
