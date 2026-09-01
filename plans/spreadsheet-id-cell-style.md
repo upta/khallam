@@ -50,7 +50,7 @@ unspecified.
 **Done when:** a test writes an id into a row that has no id cell, reads the sheet back,
 and finds the new cell carrying the same appearance as the id column's existing cells.
 
-### 2. Repair the ids that were already written plain
+### 2. Repair the ids that were already written plain  ✅
 
 Have the import, when it applies, write every row's id rather than only the new ones.
 Each one is written with the right appearance, so a sheet that has drifted corrects

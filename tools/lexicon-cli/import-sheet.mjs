@@ -445,15 +445,23 @@ if (absent.length > 0) {
 writeLexicon(lexicon);
 const lock = writeLock(lexicon.entries);
 
-// Only the ids this import generated are written back. The sheet is the source of
-// truth, so it is annotated in place and never rebuilt from the lexicon.
-if (generatedIds.size > 0) {
+// The sheet is the source of truth, so it is annotated in place and never rebuilt from
+// the lexicon. Every id is rewritten rather than only the new ones, so a cell left
+// looking hand-typed by an earlier import is corrected here.
+const idsByRow = new Map(generatedIds);
+for (const record of records) {
+  if (record.id && !idsByRow.has(record.row)) idsByRow.set(record.row, record.id);
+}
+
+if (idsByRow.size > 0) {
   const idColumn = findColumnIndexes(sheetRows).id;
   fs.writeFileSync(
     LEXICON_SHEET,
-    patchColumn(fs.readFileSync(LEXICON_SHEET), idColumn, generatedIds)
+    patchColumn(fs.readFileSync(LEXICON_SHEET), idColumn, idsByRow)
   );
-  console.log(`\nWrote ${generatedIds.size} new id(s) back into the spreadsheet.`);
+  if (generatedIds.size > 0) {
+    console.log(`\nWrote ${generatedIds.size} new id(s) back into the spreadsheet.`);
+  }
 }
 
 console.log(`Lock updated to ${lock.hash.slice(0, 16)}...`);
