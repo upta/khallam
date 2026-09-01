@@ -20,7 +20,7 @@ site, and it currently carries its own copy of 57 Klallam words plus a dozen mor
 its pronunciation guide. That copy was written in a chat, not taken from the lexicon,
 so some of it disagrees with what is already in `lexicon/lexicon.json`. Four
 disagreements are visible already, on the words for *strong*, *cow*, *stick* and
-*cut it*.
+*you*.
 
 None of that is decided here. The point of this plan is to turn "57 words in a file"
 into "here are the 30-odd rows to add and the 4 to ask a speaker about".
@@ -51,15 +51,17 @@ meaning, and mark it as known or new.
 **Done when:** the command prints a count of known and new for each chapter, and the
 two counts add up to the chapter's word count.
 
-### 3. Say which ones are spelled differently
+### 3. Say which ones are spelled differently  ✅
 
 For every word the lexicon already has, compare the page's Klallam against the
 lexicon's Klallam exactly. Where they differ, print both, along with the numeric
 codepoints of each, so whoever reviews the change technically can see precisely which
 mark moved.
 
-**Done when:** the command lists the words for *strong*, *cow*, *stick* and *cut it*
-as differing, each with both spellings and both sets of codepoints.
+**Done when:** the command lists the words for *strong*, *cow*, *stick* and *you*
+as differing, each with both spellings and both sets of codepoints. (*cut it*, named
+here when the plan was written, turns out to be identical in both; the fourth
+disagreement is *you*, in the pronunciation guide.)
 
 ### 4. Put it in the order you will work in
 

@@ -9,7 +9,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { REPO_ROOT, readLexicon } from "./lib.mjs";
+import { REPO_ROOT, foldGlottal, readLexicon, toCodepoints } from "./lib.mjs";
 
 const SITE_PAGE = path.join(REPO_ROOT, "original-site.html");
 
@@ -138,9 +138,38 @@ function lookUp(english) {
 const chapters = readChapters();
 const sounds = readSounds();
 
+/** Two spellings as aligned codepoints, with the positions that differ marked. */
+function codepointDiff(page, lexiconText) {
+  const a = toCodepoints(page);
+  const b = toCodepoints(lexiconText);
+  const columns = [];
+
+  for (let i = 0; i < Math.max(a.length, b.length); i += 1) {
+    const width = Math.max((a[i] ?? "").length, (b[i] ?? "").length);
+    columns.push({
+      page: (a[i] ?? "").padEnd(width),
+      lex: (b[i] ?? "").padEnd(width),
+      mark: (a[i] === b[i] ? "" : "^^").padStart(Math.ceil((width + 2) / 2)).padEnd(width),
+    });
+  }
+
+  const line = (key) => columns.map((c) => c[key]).join(" ").trimEnd();
+  return [
+    `      page    ${pad(page, 12)}${line("page")}`,
+    `      lexicon ${pad(lexiconText, 12)}${line("lex")}`,
+    `                          ${line("mark")}`,
+  ].join("\n");
+}
+
 function describe(word) {
   const found = lookUp(word.english);
-  const status = found.matches.length > 0 ? "in lexicon" : "not in lexicon";
+  const identical = found.matches.find((entry) => entry.klallam === word.klallam);
+  const differing = found.matches.length > 0 && !identical;
+
+  let status = "not in lexicon";
+  if (identical) status = "in lexicon";
+  else if (differing) status = "spelled differently";
+
   const notes = [];
   if (found.matches.length > 1) {
     notes.push(`${found.matches.length} entries: ${found.matches.map((e) => e.id).join(", ")}`);
@@ -150,7 +179,7 @@ function describe(word) {
   if (found.near.length > 0) {
     notes.push(`close to: ${found.near.map((e) => `${e.id} (${e.english})`).join("; ")}`);
   }
-  return { ...word, found, status, note: notes.join("  ") };
+  return { ...word, found, status, differing, note: notes.join("  ") };
 }
 
 function printGroup(heading, words) {
@@ -159,8 +188,16 @@ function printGroup(heading, words) {
   console.log(`${heading}  (${rows.length} words: ${known} in lexicon, ${rows.length - known} not)`);
   for (const row of rows) {
     console.log(
-      `  ${pad(row.klallam, 14)}${pad(row.english, 30)}${pad(row.status, 16)}${row.note}`.trimEnd()
+      `  ${pad(row.klallam, 14)}${pad(row.english, 30)}${pad(row.status, 21)}${row.note}`.trimEnd()
     );
+    if (!row.differing) continue;
+    for (const entry of row.found.matches) {
+      console.log(`    ${entry.id}:`);
+      console.log(codepointDiff(row.klallam, entry.klallam));
+      if (foldGlottal(row.klallam) === foldGlottal(entry.klallam)) {
+        console.log("      the only difference is which glottalization mark is used");
+      }
+    }
   }
   console.log("");
   return rows;
