@@ -155,9 +155,9 @@ function codepointDiff(page, lexiconText) {
 
   const line = (key) => columns.map((c) => c[key]).join(" ").trimEnd();
   return [
-    `      page    ${pad(page, 12)}${line("page")}`,
-    `      lexicon ${pad(lexiconText, 12)}${line("lex")}`,
-    `                          ${line("mark")}`,
+    `        page    ${pad(page, 12)}${line("page")}`,
+    `        lexicon ${pad(lexiconText, 12)}${line("lex")}`,
+    `                            ${line("mark")}`,
   ].join("\n");
 }
 
@@ -184,36 +184,64 @@ function describe(word) {
 
 function printGroup(heading, words) {
   const rows = words.map(describe);
-  const known = rows.filter((row) => row.found.matches.length > 0).length;
-  console.log(`${heading}  (${rows.length} words: ${known} in lexicon, ${rows.length - known} not)`);
-  for (const row of rows) {
-    console.log(
-      `  ${pad(row.klallam, 14)}${pad(row.english, 30)}${pad(row.status, 21)}${row.note}`.trimEnd()
-    );
-    if (!row.differing) continue;
-    for (const entry of row.found.matches) {
-      console.log(`    ${entry.id}:`);
-      console.log(codepointDiff(row.klallam, entry.klallam));
-      if (foldGlottal(row.klallam) === foldGlottal(entry.klallam)) {
-        console.log("      the only difference is which glottalization mark is used");
+  const toAdd = rows.filter((row) => row.found.matches.length === 0);
+  const toSettle = rows.filter((row) => row.differing);
+  const done = rows.filter((row) => row.status === "in lexicon");
+
+  console.log(heading);
+  console.log(
+    `  ${toAdd.length} to add, ${toSettle.length} for a speaker to settle, ${done.length} already there`
+  );
+  console.log("");
+
+  if (toAdd.length > 0) {
+    console.log("  Add these rows:");
+    for (const row of toAdd) {
+      console.log(`    ${pad(row.klallam, 14)}${pad(row.english, 30)}${row.note}`.trimEnd());
+    }
+    console.log("");
+  }
+
+  if (toSettle.length > 0) {
+    console.log("  A speaker has to settle these. The lexicon spells them differently:");
+    for (const row of toSettle) {
+      console.log(`    ${pad(row.klallam, 14)}${row.english}`);
+      for (const entry of row.found.matches) {
+        console.log(`      lexicon entry ${entry.id}:`);
+        console.log(codepointDiff(row.klallam, entry.klallam));
+        if (foldGlottal(row.klallam) === foldGlottal(entry.klallam)) {
+          console.log("        the only difference is which glottalization mark is used");
+        }
       }
     }
+    console.log("");
   }
-  console.log("");
+
+  if (done.length > 0) {
+    console.log("  Nothing to do:");
+    for (const row of done) {
+      console.log(`    ${pad(row.klallam, 14)}${pad(row.english, 30)}${row.note}`.trimEnd());
+    }
+    console.log("");
+  }
+
   return rows;
 }
 
 console.log("Klallam words carried inside original-site.html");
 console.log("");
 
-let total = 0;
-for (const chapter of chapters) {
-  printGroup(chapter.label, chapter.words);
-  total += chapter.words.length;
-}
+const groups = [];
+for (const chapter of chapters) groups.push(printGroup(chapter.label, chapter.words));
+groups.push(printGroup("Pronunciation guide examples", sounds));
 
-printGroup("Pronunciation guide examples", sounds);
+// A word listed in two places is still one row to type, so the totals count spellings.
+const rows = groups.flat();
+const additions = new Set(
+  rows.filter((row) => row.found.matches.length === 0).map((row) => row.klallam)
+);
+const disagreements = new Set(rows.filter((row) => row.differing).map((row) => row.klallam));
 
 console.log(
-  `${total} words across ${chapters.length} chapters, plus ${sounds.length} in the pronunciation guide.`
+  `${additions.size} rows to add to lexicon.xlsx, and ${disagreements.size} spellings for a speaker to settle.`
 );

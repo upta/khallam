@@ -63,7 +63,7 @@ as differing, each with both spellings and both sets of codepoints. (*cut it*, n
 here when the plan was written, turns out to be identical in both; the fourth
 disagreement is *you*, in the pronunciation guide.)
 
-### 4. Put it in the order you will work in
+### 4. Put it in the order you will work in  ✅
 
 Group the output chapter by chapter, and inside each chapter put the new words first,
 then the differing ones, then the ones needing nothing. End with a single summary line
