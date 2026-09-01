@@ -94,7 +94,7 @@ of by remembering to ask for it.
 with its marks correctly stacked, and the built game still fetches the font successfully
 when served from a sub-folder rather than the top of a domain.
 
-### 5. Move progress storage into the kit
+### 5. Move progress storage into the kit &mdash; done
 
 The kit gains a small store that keeps each game's progress under its own name, plus a
 running points total shared across the site. FishyBird's word memory moves to using it,

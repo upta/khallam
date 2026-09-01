@@ -4,7 +4,7 @@ import { ensureKlallamFont } from "./font";
 import { awardPoints, getPoints, storageFor, type GameStorage } from "./storage";
 
 export type { GameStorage } from "./storage";
-export { getPoints } from "./storage";
+export { awardPoints, getPoints, storageFor } from "./storage";
 export { recordingUrl } from "./audio";
 export { ensureKlallamFont, KLALLAM_FONT_FAMILY } from "./font";
 

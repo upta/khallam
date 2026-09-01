@@ -1,6 +1,10 @@
+import { storageFor } from "@klallam/game-kit";
 import { TUNING } from "./config";
 
-const KEY = "fishybird.words.v1";
+// Joins to "fishybird.words.v1", the name this game has always stored under. Changing
+// it would strand every player's progress, which cannot be recovered.
+const progress = storageFor("fishybird");
+const KEY = "words.v1";
 const SCHEMA = 1;
 
 export interface WordRecord {
@@ -16,8 +20,8 @@ interface Store {
   words: Record<string, WordRecord>;
 }
 
-// Storage is missing in some browsers and throws outright in others, and what is in it
-// may have been written by an older version. Every path here has a working fallback.
+// What is in storage may have been written by an older version, so every path here has
+// a working fallback. The kit handles storage being missing or throwing outright.
 
 function emptyStore(): Store {
   return { version: SCHEMA, round: 0, words: {} };
@@ -41,39 +45,23 @@ function readRecord(value: unknown): WordRecord | null {
 }
 
 function read(): Store {
-  let raw: string | null;
-  try {
-    raw = window.localStorage.getItem(KEY);
-  } catch {
-    return emptyStore();
-  }
-  if (raw === null) return emptyStore();
+  const parsed = progress.read(KEY);
+  if (typeof parsed !== "object" || parsed === null) return emptyStore();
+  const stored = parsed as Partial<Store>;
+  if (stored.version !== SCHEMA) return emptyStore();
+  if (!isCount(stored.round)) return emptyStore();
+  if (typeof stored.words !== "object" || stored.words === null) return emptyStore();
 
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    if (typeof parsed !== "object" || parsed === null) return emptyStore();
-    const stored = parsed as Partial<Store>;
-    if (stored.version !== SCHEMA) return emptyStore();
-    if (!isCount(stored.round)) return emptyStore();
-    if (typeof stored.words !== "object" || stored.words === null) return emptyStore();
-
-    const words: Record<string, WordRecord> = {};
-    for (const [id, value] of Object.entries(stored.words)) {
-      const record = readRecord(value);
-      if (record !== null) words[id] = record;
-    }
-    return { version: SCHEMA, round: Math.trunc(stored.round), words };
-  } catch {
-    return emptyStore();
+  const words: Record<string, WordRecord> = {};
+  for (const [id, value] of Object.entries(stored.words)) {
+    const record = readRecord(value);
+    if (record !== null) words[id] = record;
   }
+  return { version: SCHEMA, round: Math.trunc(stored.round), words };
 }
 
 function write(store: Store): void {
-  try {
-    window.localStorage.setItem(KEY, JSON.stringify(store));
-  } catch {
-    // Play carries on; this round just will not be remembered.
-  }
+  progress.write(KEY, store);
 }
 
 export function startRound(): number {
