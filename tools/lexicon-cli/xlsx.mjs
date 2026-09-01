@@ -255,11 +255,26 @@ function worksheetPath(files) {
  * would silently discard anything the editor put there that the lexicon does not
  * model, which would make the spreadsheet stop being the source of truth.
  */
+function columnStyle(xml, targetColumn) {
+  const cols = /<col\b([^>]*)\/>/g;
+  let match;
+  while ((match = cols.exec(xml))) {
+    const min = Number(/\bmin="(\d+)"/.exec(match[1])?.[1]);
+    const max = Number(/\bmax="(\d+)"/.exec(match[1])?.[1]);
+    const style = /\bstyle="(\d+)"/.exec(match[1])?.[1];
+    if (style && min <= targetColumn + 1 && targetColumn + 1 <= max) return style;
+  }
+  return undefined;
+}
+
 export function patchColumn(buf, targetColumn, valuesByRow) {
   const files = unzip(buf);
   const sheetPath = worksheetPath(files);
   let xml = files.get(sheetPath).toString("utf8");
   const col = columnName(targetColumn);
+  // A row typed by hand has no id cell to copy an appearance from, so it takes the
+  // column's own. Without this an id lands as ordinary text and reads as hand-typed.
+  const fallbackStyle = columnStyle(xml, targetColumn);
 
   for (const [rowNumber, value] of valuesByRow) {
     const rowMatch = new RegExp(
@@ -273,7 +288,7 @@ export function patchColumn(buf, targetColumn, valuesByRow) {
       `<c\\b[^>]*\\br="${ref}"[^>]*?(?:/>|>[\\s\\S]*?</c>)`
     ).exec(body);
 
-    const style = existing ? /\bs="(\d+)"/.exec(existing[0])?.[1] : undefined;
+    const style = (existing ? /\bs="(\d+)"/.exec(existing[0])?.[1] : undefined) ?? fallbackStyle;
     const cell =
       `<c r="${ref}"${style ? ` s="${style}"` : ""} t="inlineStr">` +
       `<is><t xml:space="preserve">${xmlEscape(value)}</t></is></c>`;

@@ -133,6 +133,26 @@ test("writing an id back creates the cell without disturbing the row", () => {
   );
 });
 
+test("an id written into an empty cell looks like the generated ids around it", () => {
+  const buf = writeSheet({
+    columns: SHEET_COLUMNS,
+    rows: [
+      ["", "p\u0259\u0301q\u0313", "white", "", ""],
+      ["whistle", "\u0161\u00FApt", "whistle", "", ""],
+    ],
+    protect: true,
+  });
+
+  const xml = unzip(patchColumn(buf, 0, new Map([[2, "white"]])))
+    .get("xl/worksheets/sheet1.xml")
+    .toString("utf8");
+
+  const styleOf = (ref) => /\bs="(\d+)"/.exec(new RegExp(`<c\\b[^>]*\\br="${ref}"[^>]*>`).exec(xml)[0])?.[1];
+
+  assert.equal(styleOf("A2"), styleOf("A3"), "the written id does not match the ids around it");
+  assert.equal(styleOf("A2"), String(SHEET_COLUMNS[0].style), "the id column's style was not used");
+});
+
 test("writing an id back replaces an existing value and keeps protection", () => {
   const buf = writeSheet({
     columns: SHEET_COLUMNS,
