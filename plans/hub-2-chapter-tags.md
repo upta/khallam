@@ -55,7 +55,7 @@ match on the list. Nothing is written when one is found.
 **Done when:** importing a sheet with a deliberately mistyped tag stops with an error
 that names the row and suggests the right tag, and `lexicon.json` is unchanged.
 
-### 4. Catch one that got in some other way
+### 4. Catch one that got in some other way  ✅
 
 Make `npm run lexicon:verify` fail if the lexicon holds a tag that is not on the list.
 This covers a tag removed from `tags.json` after words were already tagged with it.

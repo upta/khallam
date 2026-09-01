@@ -2,8 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   AUDIO_DIR,
+  closestTag,
   foldGlottal,
   hashEntries,
+  knownTags,
   readLexicon,
   readLock,
   toCodepoints,
@@ -22,6 +24,7 @@ if (!Array.isArray(entries) || entries.length === 0) {
 
 const ids = new Set();
 const foldedForms = new Map();
+const allowedTags = knownTags();
 
 for (const entry of entries) {
   const where = entry.id ?? "(missing id)";
@@ -31,6 +34,17 @@ for (const entry of entries) {
   }
   if (ids.has(entry.id)) errors.push(`${where}: duplicate id`);
   ids.add(entry.id);
+
+  // Catches a chapter deleted from tags.json after words were already tagged with it.
+  for (const tag of entry.tags ?? []) {
+    if (allowedTags.includes(tag)) continue;
+    const suggestion = closestTag(tag, allowedTags);
+    errors.push(
+      `${where}: tag "${tag}" is not a chapter in lexicon/tags.json.` +
+        (suggestion ? ` Did you mean "${suggestion}"?` : "") +
+        `\n      Chapters: ${allowedTags.join(", ")}`
+    );
+  }
 
   if (typeof entry.klallam !== "string" || entry.klallam.length === 0) {
     errors.push(`${where}: klallam is empty`);

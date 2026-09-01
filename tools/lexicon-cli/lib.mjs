@@ -132,7 +132,7 @@ export function closestTag(tag, tags) {
       bestDistance = distance;
     }
   }
-  return bestDistance <= 3 ? best : null;
+  return bestDistance <= 2 ? best : null;
 }
 
 /**
