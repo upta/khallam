@@ -115,7 +115,7 @@ Both were checked. Going back once leaves the chapter open with the game stopped
 twice returns to the bare page; opening the address directly lands on the chosen chapter
 with FishyBird ready.
 
-### 6. Publish the site instead of the game
+### 6. Publish the site instead of the game &mdash; done
 
 `npm run site:build` assembles the new page as the site, with FishyBird inside it rather
 than at the root, the recordings in one place, and the review page where it already is.
@@ -123,6 +123,11 @@ than at the root, the recordings in one place, and the review page where it alre
 **Done when:** serving the built site under a `/khallam/` sub-folder gives you the new
 page at the root, a playable FishyBird with audio inside it, and the review page still
 listing words at `/khallam/review/`.
+
+Served from a `/khallam/` sub-folder and checked: the page is at the root, FishyBird
+starts inside it and fetched a recording successfully, the review page lists all 138
+words, and nothing anywhere asked for an address that was not there. The checks now
+build the site as well as the game.
 
 ## Risks
 
