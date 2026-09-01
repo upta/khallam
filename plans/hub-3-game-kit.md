@@ -29,7 +29,7 @@ the whole site.
 
 There is one thing to check before committing to it. FishyBird draws through a library
 called Phaser, and a sealed-off area is exactly the sort of place a graphics library can
-get confused about where the mouse is. Step 2 finds that out cheaply, before anything is
+get confused about where the mouse is. Step 1 finds that out cheaply, before anything is
 built on top of it.
 
 Everything that will be true of *every* game &mdash; how it is placed, where it gets its
@@ -38,18 +38,7 @@ shared package, so game two does not have to rediscover any of it.
 
 ## Steps
 
-### 1. Fix the font that never loads
-
-`games/fishybird/src/style.css` asks for its Klallam font at an address that only works
-if the game sits at the top of a domain. On the published site it sits in a sub-folder,
-so the request misses, and the word banner falls back to whatever font the machine
-happens to have &mdash; which will not stack Klallam's marks correctly. Change the
-address to a relative one, the same way the recordings were changed.
-
-**Done when:** the published game shows the word banner in the Charis font, with its
-marks sitting where they should, and no request for the font comes back missing.
-
-### 2. Check that Phaser tolerates being sealed off
+### 1. Check that Phaser tolerates being sealed off
 
 A throwaway page that puts the existing game inside a sealed-off area and does nothing
 else. Play a round in it.
@@ -59,7 +48,7 @@ the fish you aimed at, the eagle catches the right one, and the recording plays.
 of that misbehaves, stop and say so; the kit then offers games a way to opt out of the
 seal, and the rest of the plan proceeds unchanged.
 
-### 3. Create the shared kit
+### 2. Create the shared kit
 
 A new package, `packages/game-kit`. It defines what a game is: a name, an icon, whether
 it fills the screen or sits in a panel, and a single function the site calls to start
@@ -71,7 +60,7 @@ Nothing uses it yet.
 
 **Done when:** `npm run ci` passes with the new package in place.
 
-### 4. Move the recordings plumbing into the kit
+### 3. Move the recordings plumbing into the kit
 
 The code that serves the lexicon's recordings while you are developing, and copies them
 into the published site, currently lives in FishyBird's build settings. Move it into the
@@ -80,6 +69,23 @@ the recordings in the published site.
 
 **Done when:** `npm run game:dev` still plays recordings, and `npm run site:build` still
 produces one `audio` folder with every recording in it.
+
+### 4. Move the Klallam font into the kit
+
+The Charis font is a loose file in FishyBird's `public` folder. That folder gets copied
+only when FishyBird is built as a whole page of its own, which is what happens today and
+still happens after step 6. But once the site owns the page and merely places the game
+on it, nothing copies that folder and the font goes missing &mdash; silently, because a
+missing font breaks nothing loudly. It just renders Klallam's stacked marks in the wrong
+places.
+
+Move the font in beside the recordings in the kit, so it travels with the kit for every
+game and for the site, and a game showing Klallam gets the right font by default instead
+of by remembering to ask for it.
+
+**Done when:** `npm run game:dev` and the built game both show the word banner in Charis
+with its marks correctly stacked, and the built game still fetches the font successfully
+when served from a sub-folder rather than the top of a domain.
 
 ### 5. Move progress storage into the kit
 
@@ -104,12 +110,13 @@ replay button and the end-of-round summary, all behaving as they do today.
 
 - **This is the step most likely to surprise us.** Moving a running game out of the page
   it was written for touches its buttons, its layout, its stylesheet and its input all
-  at once. Step 2 exists to find the worst of it early, and steps 1 and 3 to 5 are
+  at once. Step 1 exists to find the worst of it early, and steps 2 to 5 are
   deliberately ordered so that each one can be checked before the disruptive step 6.
 - **Progress is easy to lose and impossible to get back.** Step 5 keeps the storage name
   identical for that reason. Check it in a browser that has really played, not a fresh
   one, because a fresh browser looks correct either way.
-- **The font fix cannot be verified from a green build.** A missing font does not fail
-  anything; the words just render in the wrong shape. It has to be looked at.
+- **The font move cannot be verified from a green build.** A missing or wrong font does
+  not fail anything; the words just render in the wrong shape. Step 4 has to be looked
+  at with your own eyes, not signed off on a passing check.
 - **No new Klallam words are involved.** FishyBird reads them from the lexicon and will
   carry on doing so.
