@@ -70,13 +70,18 @@ thing came out that the draft had &mdash; the Klallam name of the language under
 title in the header. It is a word, so it can only come from the lexicon, and the lexicon
 does not hold it. It goes back in when it is in the spreadsheet.
 
-### 3. Build the chapters from the lexicon
+### 3. Build the chapters from the lexicon &mdash; done
 
 The chapter cards come from the chapter list written in plan 2, in the order it gives,
 each showing its label and how many words the lexicon has tagged with it.
 
 **Done when:** the page shows one card per chapter, and each card's count matches what
 you tagged in the spreadsheet.
+
+The five cards read 11, 12, 16, 12 and 6 words, which is exactly what the lexicon has
+tagged. The colour and the little picture on each card are not lexicon data; they are
+kept on the site and matched to a chapter by its tag, so a chapter added later simply
+shows without one until it is given one.
 
 ### 4. Open a game in the panel
 

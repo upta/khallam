@@ -1,4 +1,5 @@
 import lexiconData from "../lexicon.json";
+import tagsData from "../tags.json";
 
 export { pickDistractors, phoneticDistance } from "./phonetics.mjs";
 
@@ -21,7 +22,20 @@ export interface Lexicon {
   entries: LexiconEntry[];
 }
 
+/** A chapter a word may be tagged with. */
+export interface Chapter {
+  tag: string;
+  label: string;
+  order: number;
+}
+
 const lexicon = lexiconData as unknown as Lexicon;
+const chapters = (tagsData as unknown as { chapters: Chapter[] }).chapters;
+
+/** The chapters, in the order they are meant to read. */
+export function getChapters(): Chapter[] {
+  return [...chapters].sort((a, b) => a.order - b.order);
+}
 
 export interface WordQuery {
   requireAudio?: boolean;

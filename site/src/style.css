@@ -214,11 +214,13 @@ header {
   display: block;
 }
 .s-name {
+  display: block;
   font-size: 1rem;
   font-weight: 800;
   margin-bottom: 3px;
 }
 .s-count {
+  display: block;
   font-size: 0.76rem;
   color: var(--soft);
   font-weight: 600;
