@@ -38,7 +38,7 @@ shared package, so game two does not have to rediscover any of it.
 
 ## Steps
 
-### 1. Check that Phaser tolerates being sealed off
+### 1. Check that Phaser tolerates being sealed off &mdash; done
 
 A throwaway page that puts the existing game inside a sealed-off area and does nothing
 else. Play a round in it.
@@ -47,6 +47,13 @@ else. Play a round in it.
 the fish you aimed at, the eagle catches the right one, and the recording plays. If any
 of that misbehaves, stop and say so; the kit then offers games a way to opt out of the
 seal, and the rest of the plan proceeds unchanged.
+
+Phaser tolerated it. A full round played: every tap landed on the fish aimed at, the
+eagle caught the right one, recordings played, and the summary listed the missed words.
+The page's own loud styling did not reach the game and the game's dark styling did not
+reach the page. One thing to carry into step 6: Phaser finds its container by asking the
+document for it by name, which cannot see inside the seal, so step 6 must hand Phaser
+the element itself rather than its name.
 
 ### 2. Create the shared kit
 
