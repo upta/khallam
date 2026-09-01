@@ -15,8 +15,10 @@ import {
   AUDIO_DIR,
   LEXICON_SHEET,
   REPO_ROOT,
+  closestTag,
   foldGlottal,
   inspectKlallam,
+  knownTags,
   readLexicon,
   slugify,
   toCodepoints,
@@ -55,6 +57,7 @@ if (!fs.existsSync(LEXICON_SHEET)) {
 const lexicon = readLexicon();
 const entries = lexicon.entries;
 const byId = new Map(entries.map((e) => [e.id, e]));
+const allowedTags = knownTags();
 
 let sheetRows;
 let records;
@@ -146,6 +149,19 @@ for (const record of records) {
 
   const tags = parseTags(record.tags);
   const audio = record.audio || null;
+
+  // A tag nobody recognises is a word missing from a chapter, and nothing else
+  // would ever say so. Better to stop the import than to lose it quietly.
+  for (const tag of tags) {
+    if (allowedTags.includes(tag)) continue;
+    const suggestion = closestTag(tag, allowedTags);
+    errors.push(
+      `${where}: "${tag}" is not one of the chapter tags.` +
+        (suggestion ? ` Did you mean "${suggestion}"?` : "") +
+        `\n      Tags in use: ${allowedTags.join(", ")}` +
+        `\n      To add a new chapter, ask Claude to add it to lexicon/tags.json.`
+    );
+  }
 
   if (!record.id) {
     // A blank id means "new word", so a match against the lexicon is a mistake

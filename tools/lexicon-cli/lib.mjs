@@ -11,6 +11,7 @@ export const LEXICON_LOCK = path.join(LEXICON_DIR, "lexicon.lock");
 export const AUDIO_DIR = path.join(LEXICON_DIR, "audio");
 export const SOURCE_DIR = path.join(LEXICON_DIR, "source");
 export const LEXICON_SHEET = path.join(LEXICON_DIR, "lexicon.xlsx");
+export const TAGS_JSON = path.join(LEXICON_DIR, "tags.json");
 
 // Folding the two glottalization marks is defined once, in the lexicon package, so the
 // tools and the games cannot drift apart on which marks count as the same.
@@ -89,6 +90,49 @@ export function writeLock(entries) {
 
 export function readAudioMap() {
   return JSON.parse(fs.readFileSync(path.join(SOURCE_DIR, "audio-map.json"), "utf8"));
+}
+
+/** The chapters a word may be tagged with, in the order they are meant to read. */
+export function readChapters() {
+  const raw = JSON.parse(fs.readFileSync(TAGS_JSON, "utf8"));
+  return [...raw.chapters].sort((a, b) => a.order - b.order);
+}
+
+export function knownTags() {
+  return readChapters().map((chapter) => chapter.tag);
+}
+
+function editDistance(a, b) {
+  let previous = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i];
+    for (let j = 1; j <= b.length; j++) {
+      current[j] = Math.min(
+        previous[j] + 1,
+        current[j - 1] + 1,
+        previous[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)
+      );
+    }
+    previous = current;
+  }
+  return previous[b.length];
+}
+
+/**
+ * The tag a mistyped one was probably meant to be. Nothing is suggested when the
+ * nearest is still far off, because a wrong guess reads as authoritative.
+ */
+export function closestTag(tag, tags) {
+  let best = null;
+  let bestDistance = Infinity;
+  for (const candidate of tags) {
+    const distance = editDistance(tag, candidate);
+    if (distance < bestDistance) {
+      best = candidate;
+      bestDistance = distance;
+    }
+  }
+  return bestDistance <= 3 ? best : null;
 }
 
 /**

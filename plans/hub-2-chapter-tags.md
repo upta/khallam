@@ -46,7 +46,7 @@ stored. A row reading `Nouns , nouns` becomes the single tag `nouns`.
 
 **Done when:** `npm run lexicon:verify` passes and `npm test` is green.
 
-### 3. Refuse a tag that is not on the list
+### 3. Refuse a tag that is not on the list  ✅
 
 The import already shows you a dry-run report before it changes anything. Make an
 unrecognised tag an error in that report, naming the row, the tag, and the closest
