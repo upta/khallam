@@ -3,6 +3,9 @@ dist/
 .DS_Store
 *.log
 
+# Excel drops these beside a workbook it has open.
+~$*.xlsx
+
 # Scratch files holding Klallam text to copy by hand. Outside the integrity lock.
 WORDS-TO-FIX.txt
 WORD-TO-ADD.txt
