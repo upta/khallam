@@ -361,25 +361,41 @@ if (!apply) {
   process.exit(0);
 }
 
-if (changeCount === 0) {
-  console.log("\nNothing to apply.");
-  process.exit(0);
+// Every apply writes the id column back, so prove the sheet is writable before
+// touching lexicon.json. Failing halfway would leave the two out of step.
+try {
+  fs.closeSync(fs.openSync(LEXICON_SHEET, "r+"));
+} catch (err) {
+  console.error("\nCannot apply: lexicon/lexicon.xlsx is not writable.");
+  console.error(`Reason: ${err.code ?? err.message}`);
+  console.error("");
+  console.error("An import writes the ids back into the sheet. Close the file in Excel");
+  console.error("and run the same command again. Nothing has been changed.");
+  process.exit(1);
 }
 
-// New words mean ids get written back, so prove the sheet is writable before
-// touching lexicon.json. Failing halfway would leave the two out of step.
-if (additions.length > 0) {
-  try {
-    fs.closeSync(fs.openSync(LEXICON_SHEET, "r+"));
-  } catch (err) {
-    console.error("\nCannot apply: lexicon/lexicon.xlsx is not writable.");
-    console.error(`Reason: ${err.code ?? err.message}`);
-    console.error("");
-    console.error("This import adds new words, and their generated ids have to be written");
-    console.error("back into the sheet. Close the file in Excel and run the same command");
-    console.error("again. Nothing has been changed.");
-    process.exit(1);
+/**
+ * Stamp the id column back into the sheet. Every id is written, not only the ones just
+ * generated, so a cell left looking hand-typed by an earlier import is corrected.
+ */
+function stampIds(generated) {
+  const idsByRow = new Map(generated);
+  for (const record of records) {
+    if (record.id && !idsByRow.has(record.row)) idsByRow.set(record.row, record.id);
   }
+  if (idsByRow.size === 0) return;
+
+  const idColumn = findColumnIndexes(sheetRows).id;
+  fs.writeFileSync(
+    LEXICON_SHEET,
+    patchColumn(fs.readFileSync(LEXICON_SHEET), idColumn, idsByRow)
+  );
+}
+
+if (changeCount === 0) {
+  stampIds(new Map());
+  console.log("\nNothing to import. Tidied the id column.");
+  process.exit(0);
 }
 
 /* ------------------------------------------------------------------- apply --- */
@@ -446,22 +462,10 @@ writeLexicon(lexicon);
 const lock = writeLock(lexicon.entries);
 
 // The sheet is the source of truth, so it is annotated in place and never rebuilt from
-// the lexicon. Every id is rewritten rather than only the new ones, so a cell left
-// looking hand-typed by an earlier import is corrected here.
-const idsByRow = new Map(generatedIds);
-for (const record of records) {
-  if (record.id && !idsByRow.has(record.row)) idsByRow.set(record.row, record.id);
-}
-
-if (idsByRow.size > 0) {
-  const idColumn = findColumnIndexes(sheetRows).id;
-  fs.writeFileSync(
-    LEXICON_SHEET,
-    patchColumn(fs.readFileSync(LEXICON_SHEET), idColumn, idsByRow)
-  );
-  if (generatedIds.size > 0) {
-    console.log(`\nWrote ${generatedIds.size} new id(s) back into the spreadsheet.`);
-  }
+// the lexicon.
+stampIds(generatedIds);
+if (generatedIds.size > 0) {
+  console.log(`\nWrote ${generatedIds.size} new id(s) back into the spreadsheet.`);
 }
 
 console.log(`Lock updated to ${lock.hash.slice(0, 16)}...`);

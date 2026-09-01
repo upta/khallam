@@ -60,6 +60,19 @@ be remembered.
 **Done when:** running an import that adds at least one word leaves every id cell in the
 sheet looking identical, including the 37 that are plain today.
 
+### 2a. Let the repair run when there is nothing to import  ✅
+
+*Added during the build.* Step 2 only reaches the sheet when an import has something to
+apply, and the sheet and the lexicon currently agree, so the 37 plain ids would have sat
+there until the next new word. Applying an import that has nothing to import now tidies
+the id column and says so, rather than exiting having done nothing.
+
+Because the sheet is now written on every apply rather than only when words are added,
+the existing check that the file is not open in Excel has to run every time too.
+
+**Done when:** `npm run lexicon:import -- --apply`, with nothing to import, reports that
+it tidied the id column, and running it a second time changes the file no further.
+
 ### 3. Look at it in Excel
 
 Open the spreadsheet and read down the id column.
@@ -70,10 +83,11 @@ single out the rows that were filled in by an import.
 ## Risks
 
 - **This writes to the spreadsheet, which is the source of truth for Klallam.** Step 2
-  in particular touches every id cell rather than a handful. Ids are ASCII and are
-  generated from the English, so no Klallam is read or written by any of it &mdash; but
-  it is still the file that matters most, and it is worth committing the sheet before
-  running an import, so any surprise can be undone.
+  in particular touches every id cell rather than a handful, and step 2a means an apply
+  with nothing to import now writes to the file where before it did nothing at all. Ids
+  are ASCII and are generated from the English, so no Klallam is read or written by any
+  of it &mdash; but it is still the file that matters most, and it is worth committing
+  the sheet before running an import, so any surprise can be undone.
 - **Excel must be closed when an import applies.** That is true today and does not
   change. Excel holding the file open with unsaved changes can write its own copy back
   over the ids.
