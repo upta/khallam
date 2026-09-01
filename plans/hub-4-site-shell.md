@@ -103,6 +103,12 @@ to three caught out of ten with the header still above it. FishyBird on its own 
 unchanged, because a game placed without a list is handed every playable word. The
 sound has to be confirmed by ear.
 
+Afterwards: the game's level chooser, its end-of-round summary and its "Change level"
+button were pinned to the browser window rather than to the game, so in the panel the
+chooser covered the whole page and the button landed up beside the site's header. They
+are now pinned to the game itself and stay inside it, on the page and on the game's own
+page alike.
+
 ### 5. Make the address bar keep up &mdash; done
 
 The chosen chapter and game are reflected in the address, so the back button goes back a

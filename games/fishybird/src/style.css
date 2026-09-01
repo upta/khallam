@@ -72,8 +72,10 @@
   display: none;
 }
 
+/* Pinned to the game's own element, not the window, so a game placed in a panel on a
+   page covers only itself. */
 .start-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
@@ -84,7 +86,7 @@
 }
 
 .change-level {
-  position: fixed;
+  position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 1;
@@ -115,7 +117,7 @@
 }
 
 .summary {
-  position: fixed;
+  position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
