@@ -4,22 +4,22 @@ import { closestTag, knownTags, readChapters } from "../tools/lexicon-cli/lib.mj
 import { parseTags } from "../tools/lexicon-cli/sheet-schema.mjs";
 
 test("a capitalised tag still names its chapter", () => {
-  assert.deepEqual(parseTags("Nouns"), ["nouns"]);
-  assert.ok(knownTags().includes("nouns"));
+  assert.deepEqual(parseTags("CH-4"), ["ch-4"]);
+  assert.ok(knownTags().includes("ch-4"));
 });
 
 test("a tag with stray spaces still names its chapter", () => {
-  assert.deepEqual(parseTags("  nouns  , adj "), ["nouns", "adj"]);
+  assert.deepEqual(parseTags("  ch-4  , ch-6 "), ["ch-4", "ch-6"]);
 });
 
 test("the same tag typed two ways is stored once", () => {
-  assert.deepEqual(parseTags("Nouns , nouns"), ["nouns"]);
+  assert.deepEqual(parseTags("CH-4 , ch-4"), ["ch-4"]);
 });
 
 test("a mistyped tag is not a chapter, and the one meant is suggested", () => {
   const tags = knownTags();
-  assert.ok(!tags.includes("noun"), "a typo must not pass as a chapter");
-  assert.equal(closestTag("noun", tags), "nouns");
+  assert.ok(!tags.includes("ch-11"), "a typo must not pass as a chapter");
+  assert.equal(closestTag("ch-11", tags), "ch-1.1");
 });
 
 test("a tag nothing like a chapter is left unguessed", () => {

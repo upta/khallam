@@ -1,9 +1,9 @@
 {
   "chapters": [
-    { "tag": "intrans", "label": "Ch. 1.1 \u2014 Intransitive Verbs", "order": 1 },
-    { "tag": "trans", "label": "Ch. 1.2 \u2014 Transitive Verbs", "order": 2 },
-    { "tag": "nouns", "label": "Ch. 4 \u2014 Nouns", "order": 3 },
-    { "tag": "adj", "label": "Ch. 6 \u2014 Adjectives", "order": 4 },
+    { "tag": "ch-1.1", "label": "Ch. 1.1 \u2014 Intransitive Verbs", "order": 1 },
+    { "tag": "ch-1.2", "label": "Ch. 1.2 \u2014 Transitive Verbs", "order": 2 },
+    { "tag": "ch-4", "label": "Ch. 4 \u2014 Nouns", "order": 3 },
+    { "tag": "ch-6", "label": "Ch. 6 \u2014 Adjectives", "order": 4 },
     { "tag": "pronouns", "label": "Subject Pronouns", "order": 5 }
   ]
 }

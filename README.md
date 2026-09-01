@@ -74,13 +74,13 @@ Type one of these, exactly:
 
 | Tag | Chapter |
 |---|---|
-| `intrans` | Ch. 1.1 &mdash; Intransitive Verbs |
-| `trans` | Ch. 1.2 &mdash; Transitive Verbs |
-| `nouns` | Ch. 4 &mdash; Nouns |
-| `adj` | Ch. 6 &mdash; Adjectives |
+| `ch-1.1` | Ch. 1.1 &mdash; Intransitive Verbs |
+| `ch-1.2` | Ch. 1.2 &mdash; Transitive Verbs |
+| `ch-4` | Ch. 4 &mdash; Nouns |
+| `ch-6` | Ch. 6 &mdash; Adjectives |
 | `pronouns` | Subject Pronouns |
 
-- **Capitals and stray spaces do not matter.** `Nouns`, ` nouns ` and `nouns` are all
+- **Capitals and stray spaces do not matter.** `CH-4`, ` ch-4 ` and `ch-4` are all
   the same tag, and typing one twice stores it once.
 - **A tag that is not on the list stops the import.** You get the row number, what you
   typed, and the tag you probably meant. Nothing is written until it is fixed, so a
