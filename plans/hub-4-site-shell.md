@@ -37,7 +37,7 @@ page does not depend on anything outside itself.
 
 ## Steps
 
-### 1. Close the gap in the guard first
+### 1. Close the gap in the guard first &mdash; done
 
 There is a check that fails the build if a Klallam character is written into the code
 rather than read from the lexicon. It currently only looks at `games` and `tools`. Widen
@@ -46,6 +46,9 @@ cannot become the place where words get inlined.
 
 **Done when:** putting a non-ASCII character into a file under `site` makes
 `npm run ci` fail, and removing it makes it pass.
+
+`packages` had already been added when the kit was built, so this only had to add
+`site`. Proved both ways with a throwaway file.
 
 ### 2. Stand the page up with nothing in it
 
