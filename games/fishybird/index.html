@@ -4,32 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>FishyBird</title>
-    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
-    <div id="app">
-      <button id="change-level" class="control change-level" type="button">Change level</button>
-      <p id="banner" class="banner" aria-live="polite"></p>
-      <div id="game"></div>
-      <div class="controls" id="controls">
-        <button id="replay" class="control" type="button">Hear it again</button>
-        <p id="score" class="score" aria-live="polite"></p>
-      </div>
-      <div id="start" class="start-overlay">
-        <h2 class="chooser-title">Choose a level</h2>
-        <div id="level-buttons" class="level-buttons"></div>
-      </div>
-      <div id="summary" class="summary" hidden>
-        <h2 id="summary-score" class="summary-score"></h2>
-        <p id="summary-level" class="summary-lead"></p>
-        <p id="summary-lead" class="summary-lead"></p>
-        <ul id="summary-missed" class="missed"></ul>
-        <div class="summary-actions">
-          <button id="play-again" class="start-button" type="button">Play again</button>
-          <button id="summary-change-level" class="start-button" type="button">Change level</button>
-        </div>
-      </div>
-    </div>
+    <!-- The game is one tag. Everything it draws lives inside it. -->
+    <klallam-fishybird></klallam-fishybird>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

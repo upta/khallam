@@ -103,7 +103,7 @@ keeping the exact name it stores under today.
 **Done when:** a browser that has played FishyBird before still shows the same words
 coming back for review after the change, and its round count has not reset.
 
-### 6. Make FishyBird a placeable tag
+### 6. Make FishyBird a placeable tag &mdash; done
 
 FishyBird builds its own banner, buttons and summary inside its own element instead of
 finding them on the page, and carries its stylesheet with it. `games/fishybird/index.html`

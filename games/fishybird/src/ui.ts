@@ -1,10 +1,21 @@
 import { playWord } from "./audio";
 import { TUNING } from "./config";
 
-function element<T extends HTMLElement>(id: string): T {
-  const found = document.getElementById(id);
-  if (found === null) throw new Error(`The page is missing an element with id "${id}".`);
-  return found as T;
+function make<K extends keyof HTMLElementTagNameMap>(
+  tag: K,
+  className?: string,
+  text?: string
+): HTMLElementTagNameMap[K] {
+  const node = document.createElement(tag);
+  if (className !== undefined) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function button(className: string, label: string): HTMLButtonElement {
+  const node = make("button", className, label);
+  node.type = "button";
+  return node;
 }
 
 export interface MissedWord {
@@ -14,6 +25,8 @@ export interface MissedWord {
 }
 
 export interface GameUi {
+  /** The box Phaser draws into. */
+  readonly gameParent: HTMLElement;
   renderLevels(names: readonly string[], onPick: (index: number) => void): void;
   showChooser(): void;
   hideChooser(): void;
@@ -32,39 +45,58 @@ export interface GameUi {
   hideSummary(): void;
 }
 
-export function createUi(): GameUi {
-  const overlay = element<HTMLDivElement>("start");
-  const levelButtons = element<HTMLDivElement>("level-buttons");
-  const changeLevelButton = element<HTMLButtonElement>("change-level");
-  const banner = element<HTMLParagraphElement>("banner");
-  const replayButton = element<HTMLButtonElement>("replay");
-  const score = element<HTMLParagraphElement>("score");
-  const controls = element<HTMLDivElement>("controls");
-  const summary = element<HTMLDivElement>("summary");
-  const summaryScore = element<HTMLHeadingElement>("summary-score");
-  const summaryLevel = element<HTMLParagraphElement>("summary-level");
-  const summaryLead = element<HTMLParagraphElement>("summary-lead");
-  const missedList = element<HTMLUListElement>("summary-missed");
-  const playAgainButton = element<HTMLButtonElement>("play-again");
-  const summaryChangeLevelButton = element<HTMLButtonElement>("summary-change-level");
+/** Builds the game's own furniture inside the root it is given, owning nothing outside it. */
+export function createUi(root: ShadowRoot | HTMLElement): GameUi {
+  const app = make("div");
+  app.id = "app";
+
+  const changeLevelButton = button("control change-level", "Change level");
+  const banner = make("p", "banner");
+  banner.setAttribute("aria-live", "polite");
+
+  const gameParent = make("div");
+  gameParent.id = "game";
+
+  const replayButton = button("control", "Hear it again");
+  const score = make("p", "score");
+  score.setAttribute("aria-live", "polite");
+  const controls = make("div", "controls");
+  controls.append(replayButton, score);
+
+  const levelButtons = make("div", "level-buttons");
+  const overlay = make("div", "start-overlay");
+  overlay.append(make("h2", "chooser-title", "Choose a level"), levelButtons);
+
+  const summaryScore = make("h2", "summary-score");
+  const summaryLevel = make("p", "summary-lead");
+  const summaryLead = make("p", "summary-lead");
+  const missedList = make("ul", "missed");
+  const playAgainButton = button("start-button", "Play again");
+  const summaryChangeLevelButton = button("start-button", "Change level");
+  const summaryActions = make("div", "summary-actions");
+  summaryActions.append(playAgainButton, summaryChangeLevelButton);
+  const summary = make("div", "summary");
+  summary.hidden = true;
+  summary.append(summaryScore, summaryLevel, summaryLead, missedList, summaryActions);
+
+  app.append(changeLevelButton, banner, gameParent, controls, overlay, summary);
+  root.append(app);
 
   replayButton.hidden = !TUNING.allowAudioReplay;
   changeLevelButton.hidden = true;
 
   return {
+    gameParent,
     renderLevels(names, onPick) {
       levelButtons.replaceChildren(
         ...names.map((name, index) => {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "start-button";
-          button.textContent = name;
-          button.addEventListener("click", () => {
+          const level = button("start-button", name);
+          level.addEventListener("click", () => {
             // A button keeping focus would swallow the space bar, which the game uses to dive.
-            button.blur();
+            level.blur();
             onPick(index);
           });
-          return button;
+          return level;
         })
       );
     },
@@ -77,9 +109,9 @@ export function createUi(): GameUi {
       changeLevelButton.hidden = false;
     },
     onChangeLevel(handler) {
-      for (const button of [changeLevelButton, summaryChangeLevelButton]) {
-        button.addEventListener("click", () => {
-          button.blur();
+      for (const control of [changeLevelButton, summaryChangeLevelButton]) {
+        control.addEventListener("click", () => {
+          control.blur();
           handler();
         });
       }
@@ -116,21 +148,13 @@ export function createUi(): GameUi {
 
       missedList.replaceChildren(
         ...missed.map((word) => {
-          const item = document.createElement("li");
+          const item = make("li");
 
-          const klallam = document.createElement("span");
-          klallam.className = "missed-klallam";
           // Built as text, never markup, so no mark can be lost to HTML parsing.
-          klallam.textContent = word.klallam;
+          const klallam = make("span", "missed-klallam", word.klallam);
+          const english = make("span", "missed-english", word.english);
 
-          const english = document.createElement("span");
-          english.className = "missed-english";
-          english.textContent = word.english;
-
-          const play = document.createElement("button");
-          play.type = "button";
-          play.className = "control";
-          play.textContent = "Hear it";
+          const play = button("control", "Hear it");
           play.addEventListener("click", () => {
             play.blur();
             playWord(word.audioUrl);
