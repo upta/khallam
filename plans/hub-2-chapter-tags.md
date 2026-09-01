@@ -69,7 +69,7 @@ Add tests for a straight typo, a capitalisation difference, and a stray space.
 
 **Done when:** `npm test` covers all three and passes.
 
-### 6. Explain it to whoever does the tagging
+### 6. Explain it to whoever does the tagging  ✅
 
 A short section in `README.md`, next to the existing spreadsheet instructions, saying
 what a chapter tag is, listing the ones that exist, and saying what happens if you type

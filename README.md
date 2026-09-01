@@ -51,7 +51,7 @@ broken gets in either way. It is just far less annoying to prevent them.
 | **Klallam** | Type or paste the word. |
 | **English** | The translation. |
 | **audio file** | A filename in `lexicon/audio/`, for example `white.mp3`. |
-| **tags** | Optional, comma separated. |
+| **tags** | Optional, comma separated. See *Chapter tags* below. |
 
 - **To add a word,** type into the first empty row and **leave the id blank**.
   An id is created for you and written back into the sheet afterwards.
@@ -63,6 +63,31 @@ broken gets in either way. It is just far less annoying to prevent them.
   Removing a word is deliberate and separate, by design.
 - **You can add your own columns.** Anything the lexicon does not recognise, such as
   a notes column, is left untouched.
+
+### Chapter tags
+
+The **tags** column is what puts a word into a chapter on the site. A word with no
+tag still exists; it just does not appear in any chapter. A word can carry more than
+one tag, separated by commas.
+
+Type one of these, exactly:
+
+| Tag | Chapter |
+|---|---|
+| `intrans` | Ch. 1.1 &mdash; Intransitive Verbs |
+| `trans` | Ch. 1.2 &mdash; Transitive Verbs |
+| `nouns` | Ch. 4 &mdash; Nouns |
+| `adj` | Ch. 6 &mdash; Adjectives |
+| `pronouns` | Subject Pronouns |
+
+- **Capitals and stray spaces do not matter.** `Nouns`, ` nouns ` and `nouns` are all
+  the same tag, and typing one twice stores it once.
+- **A tag that is not on the list stops the import.** You get the row number, what you
+  typed, and the tag you probably meant. Nothing is written until it is fixed, so a
+  mistyped tag can never quietly drop a word out of its chapter.
+- **To add a chapter,** ask Claude to add it to `lexicon/tags.json`. That file holds no
+  Klallam, so Claude can edit it safely. Until a tag is in there, the import will
+  reject it.
 
 ### Changing a word that is already in the lexicon
 
