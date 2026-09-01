@@ -63,7 +63,7 @@ This covers a tag removed from `tags.json` after words were already tagged with 
 **Done when:** deleting a chapter from `tags.json` makes `npm run ci` fail, and putting
 it back makes it pass.
 
-### 5. Test the three ways it goes wrong
+### 5. Test the three ways it goes wrong  ✅
 
 Add tests for a straight typo, a capitalisation difference, and a stray space.
 
