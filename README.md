@@ -100,19 +100,11 @@ review automatically, because the process cannot know who approved them.
 
 ## Checking the words
 
-Ask Claude to *"open the lexicon review page"*. It renders every word properly and
-plays its recording, which is the right way for a speaker to check them.
+Ask Claude to *"open the lexicon review page"*, then open **http://localhost:5174** in
+your browser. It lists every word, rendered properly, and plays its recording.
 
-### Two audiences, two kinds of checking
-
-A **speaker** checks a word by reading it rendered, in the spreadsheet or on the
-review page.
-
-A **maintainer** checks a word by reading codepoints: the `codepoints` array in
-`lexicon.json`, the before/after diff the import prints, and the git diff.
-
-Never ask a speaker to verify that `U+0313` should have been `U+0315`. Nobody reads
-Unicode by eye, and the two marks look identical on screen.
+That page is the right way to check a word: read it and listen to it. Words waiting on
+a speaker's say-so are marked, so you can work straight down the list.
 
 ---
 
