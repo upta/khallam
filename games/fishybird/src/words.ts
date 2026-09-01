@@ -1,4 +1,4 @@
-import { audioUrl, getPlayableWords, pickDistractors, type LexiconEntry } from "@klallam/lexicon";
+import { audioUrl, pickDistractors, type LexiconEntry } from "@klallam/lexicon";
 import { TUNING, type Level } from "./config";
 import { getMemory, type WordRecord } from "./memory";
 
@@ -112,8 +112,11 @@ function chooseWords(
   return shuffle(chosen, random);
 }
 
-export function buildRound(level: Level, random: () => number = Math.random): RoundWord[] {
-  const pool = getPlayableWords();
+export function buildRound(
+  pool: readonly LexiconEntry[],
+  level: Level,
+  random: () => number = Math.random
+): RoundWord[] {
   const needed = Math.max(TUNING.wordsPerRound, level.salmonPerWord);
   if (pool.length < needed) {
     throw new Error(

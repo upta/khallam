@@ -336,6 +336,11 @@ header {
 .game-body {
   padding: 26px 22px;
 }
+.panel-note {
+  text-align: center;
+  font-weight: 700;
+  color: var(--soft);
+}
 
 @media (max-width: 500px) {
   .game-hdr {

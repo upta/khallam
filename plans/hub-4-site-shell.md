@@ -83,7 +83,7 @@ tagged. The colour and the little picture on each card are not lexicon data; the
 kept on the site and matched to a chapter by its tag, so a chapter added later simply
 shows without one until it is given one.
 
-### 4. Open a game in the panel
+### 4. Open a game in the panel &mdash; done
 
 Choosing a chapter opens the panel below it with a row of tabs. FishyBird is the only
 tab for now. Choosing it starts the game, inside the panel. The game is only downloaded
@@ -97,6 +97,11 @@ the site and nothing at all inside a game.
 
 **Done when:** choosing a chapter and then FishyBird plays a full round with audio on
 the words the site handed it, and the site's header stays visible above it.
+
+The game runs in the panel, is handed 96 words, and catching works: a level was played
+to three caught out of ten with the header still above it. FishyBird on its own page is
+unchanged, because a game placed without a list is handed every playable word. The
+sound has to be confirmed by ear.
 
 ### 5. Make the address bar keep up
 

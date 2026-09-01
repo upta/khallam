@@ -11,10 +11,6 @@ export { ensureKlallamFont, KLALLAM_FONT_FAMILY } from "./font";
 /** Whether the game wants the whole screen or is happy in a panel on a page. */
 export type GameLayout = "fullscreen" | "panel";
 
-export interface GameWordQuery {
-  tags?: string[];
-}
-
 export interface GameResult {
   score: number;
   outOf: number;
@@ -24,8 +20,8 @@ export interface GameResult {
 export interface GameContext {
   /** The sealed-off root to draw in. Nothing here leaks out to the page. */
   readonly root: ShadowRoot;
-  /** Words safe to teach: confirmed text with a recording. */
-  words(query?: GameWordQuery): LexiconEntry[];
+  /** The words this game was handed, in the order they were given. */
+  words(): LexiconEntry[];
   playRecording(entry: LexiconEntry): void;
   playRecordingUrl(url: string): void;
   recordingUrl(entry: LexiconEntry): string | null;
@@ -65,6 +61,42 @@ export function tagNameFor(gameId: string): string {
   return `klallam-${gameId}`;
 }
 
+/** A game on the page, holding the list of words it was handed. */
+export interface PlacedGame extends HTMLElement {
+  /** The words the game may use, by lexicon id. Null means every playable word. */
+  wordIds: readonly string[] | null;
+}
+
+/** Words safe to teach: confirmed text with a recording. */
+function playableWords(): LexiconEntry[] {
+  return getWords({ requireAudio: true, includeNeedsReview: false });
+}
+
+function wordsFor(ids: readonly string[] | null): LexiconEntry[] {
+  if (ids === null) return playableWords();
+  const byId = new Map(playableWords().map((entry) => [entry.id, entry]));
+  // An id for a word with no recording, or one still awaiting confirmation, is not
+  // something to teach, so it is left out rather than shown.
+  return ids.flatMap((id) => {
+    const entry = byId.get(id);
+    return entry === undefined ? [] : [entry];
+  });
+}
+
+/**
+ * Builds a game's tag and hands it the words to use. The game's module must have been
+ * imported first, because that is what registers it.
+ */
+export function placeGame(gameId: string, wordIds: readonly string[]): PlacedGame {
+  const tag = tagNameFor(gameId);
+  if (customElements.get(tag) === undefined) {
+    throw new Error(`Game "${gameId}" has not been imported, so it cannot be placed.`);
+  }
+  const element = document.createElement(tag) as PlacedGame;
+  element.wordIds = [...wordIds];
+  return element;
+}
+
 /**
  * Turns a game into a tag the site can place. Everything the game draws lives inside
  * that tag, so the page's styling cannot reach in and the game's cannot reach out.
@@ -80,6 +112,8 @@ export function registerGame(definition: GameDefinition): string {
   if (customElements.get(tag) !== undefined) return tag;
 
   class GameElement extends HTMLElement {
+    /** Set by whatever places the game, before it goes on the page. */
+    wordIds: readonly string[] | null = null;
     private teardown: GameTeardown | null = null;
 
     connectedCallback(): void {
@@ -96,8 +130,7 @@ export function registerGame(definition: GameDefinition): string {
 
       const context: GameContext = {
         root,
-        words: (query = {}) =>
-          getWords({ ...query, requireAudio: true, includeNeedsReview: false }),
+        words: () => wordsFor(this.wordIds),
         playRecording,
         playRecordingUrl,
         recordingUrl,

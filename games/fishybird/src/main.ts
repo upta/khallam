@@ -1,4 +1,5 @@
 import { registerGame } from "@klallam/game-kit";
+import type { LexiconEntry } from "@klallam/lexicon";
 import Phaser from "phaser";
 import { playCatchChime, playWord } from "./audio";
 import { LEVELS, TUNING, clampLevelIndex, levelAt, type Level } from "./config";
@@ -86,6 +87,7 @@ class RoundScene extends Phaser.Scene {
 
   constructor(
     private readonly ui: GameUi,
+    private readonly pool: readonly LexiconEntry[],
     private readonly onFinished: (caught: number, outOf: number) => void
   ) {
     super("round");
@@ -142,7 +144,7 @@ class RoundScene extends Phaser.Scene {
     this.ui.hideChooser();
     this.stopPlay();
     startRound();
-    this.round = buildRound(this.level);
+    this.round = buildRound(this.pool, this.level);
     this.index = 0;
     this.caught = 0;
     this.missed = [];
@@ -513,7 +515,7 @@ registerGame({
     context.root.append(sheet);
 
     const ui = createUi(context.root);
-    const scene = new RoundScene(ui, (caught, outOf) => {
+    const scene = new RoundScene(ui, context.words(), (caught, outOf) => {
       context.finish({ score: caught, outOf });
     });
 
