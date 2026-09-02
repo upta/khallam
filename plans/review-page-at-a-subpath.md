@@ -54,7 +54,7 @@ printed on startup to the new one.
 **Done when:** `npm run lexicon:review`, then opening `http://localhost:5174/review/`,
 lists every word and plays a recording when you click one.
 
-### 2. Send the bare address to the page
+### 2. Send the bare address to the page &mdash; done
 
 `/` and `/review` both redirect to `/review/`. The second one matters as much as the
 first: without the trailing slash the page comes up empty rather than broken, which is

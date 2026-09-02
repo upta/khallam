@@ -26,6 +26,13 @@ function fileFor(requested) {
 
 const server = http.createServer((req, res) => {
   const requested = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
+
+  // Without the trailing slash the page asks for its word list a folder too high and comes up empty.
+  if (requested === "/" || requested === "/review") {
+    res.writeHead(302, { Location: "/review/" }).end();
+    return;
+  }
+
   const resolved = fileFor(requested);
 
   if (resolved === null) {
