@@ -78,7 +78,7 @@ answers, a recording answers, and the old root address for the word list does no
 
 **Done when:** `npm test` covers all four and passes.
 
-### 5. Point the README at the address that works
+### 5. Point the README at the address that works &mdash; done
 
 In `README.md`, under *Checking the words*, change the link to the new address.
 

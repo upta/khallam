@@ -101,8 +101,8 @@ review automatically, because the process cannot know who approved them.
 ## Checking the words
 
 Ask Claude to *"open the lexicon review page"*, then open
-**<http://localhost:5174/>** in your browser. It lists every word, rendered properly,
-and plays its recording.
+**<http://localhost:5174/review/>** in your browser. It lists every word, rendered
+properly, and plays its recording.
 
 That page is the right way to check a word: read it and listen to it. Words waiting on
 a speaker's say-so are marked, so you can work straight down the list.
