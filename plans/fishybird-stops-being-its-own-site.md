@@ -41,7 +41,17 @@ rename the profile to match. Doing this first means F5 is never broken in betwee
 **Done when:** pressing F5 opens the site with the chapters listed, and clicking into
 FishyBird plays a round with sound.
 
-### 2. FishyBird loses the equipment for being a site
+### 2. The checks stop building a site that is about to not exist
+
+`ci` currently builds FishyBird on its own. Remove that. Building the site compiles
+FishyBird already, so nothing stops being checked &mdash; and if that turns out to be
+wrong, the site build is where it will show.
+
+This comes before the deletion so the checks are never red in between.
+
+**Done when:** `npm run ci` passes and no longer builds the game separately.
+
+### 3. FishyBird loses the equipment for being a site
 
 Delete `games/fishybird/index.html` and `games/fishybird/vite.config.ts`, and the
 `dev`, `build` and `preview` scripts in its `package.json`. Drop `game:dev`,
@@ -50,14 +60,6 @@ start.
 
 **Done when:** FishyBird still plays a full round with sound inside the site, started
 with F5.
-
-### 3. The checks stop building a site that no longer exists
-
-`ci` currently builds FishyBird on its own. Remove that. Building the site compiles
-FishyBird already, so nothing stops being checked &mdash; and if that turns out to be
-wrong, the site build is where it will show.
-
-**Done when:** `npm run ci` passes and no longer builds the game separately.
 
 ### 4. Say it in the README
 
