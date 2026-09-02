@@ -1,10 +1,10 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
-import { LEXICON_DIR } from "./lib.mjs";
+import { AUDIO_DIR, LEXICON_DIR, LEXICON_JSON } from "./lib.mjs";
 
 const PORT = Number(process.env.PORT ?? 5174);
-const ROOT = LEXICON_DIR;
+const REVIEW_PAGE = path.join(LEXICON_DIR, "review", "index.html");
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -14,13 +14,27 @@ const MIME = {
   ".js": "text/javascript; charset=utf-8",
 };
 
+// The layout the published site already has, so the page works the same in both places.
+function fileFor(requested) {
+  if (requested === "/review/" || requested === "/review/index.html") return REVIEW_PAGE;
+  if (requested === "/review/lexicon.json") return LEXICON_JSON;
+  if (requested.startsWith("/audio/")) {
+    return path.resolve(AUDIO_DIR, requested.slice("/audio/".length));
+  }
+  return null;
+}
+
 const server = http.createServer((req, res) => {
   const requested = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
-  const relative = requested === "/" ? "review/index.html" : requested.replace(/^\/+/, "");
+  const resolved = fileFor(requested);
+
+  if (resolved === null) {
+    res.writeHead(404).end("Not found");
+    return;
+  }
 
   // Keep the resolved path inside the lexicon directory.
-  const resolved = path.resolve(ROOT, relative);
-  if (resolved !== ROOT && !resolved.startsWith(ROOT + path.sep)) {
+  if (!resolved.startsWith(LEXICON_DIR + path.sep)) {
     res.writeHead(403).end("Forbidden");
     return;
   }
@@ -38,6 +52,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Lexicon review page: http://localhost:${PORT}/`);
+  console.log(`Lexicon review page: http://localhost:${PORT}/review/`);
   console.log("Press Ctrl+C to stop.");
 });

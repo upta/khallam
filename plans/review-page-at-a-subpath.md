@@ -43,7 +43,7 @@ rather than an error, which is why it gets a step of its own.
 
 ## Steps
 
-### 1. Give the review page and its word list a home under `/review/`
+### 1. Give the review page and its word list a home under `/review/` &mdash; done
 
 In `tools/lexicon-cli/review-server.mjs`, replace "serve the lexicon folder" with a
 short, explicit list of what is served and where: the review page at `/review/`, the
