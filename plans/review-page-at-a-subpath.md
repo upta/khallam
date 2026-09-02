@@ -63,7 +63,7 @@ the failure this plan exists to remove.
 **Done when:** typing `http://localhost:5174` into a browser lands on the review page
 with the words listed.
 
-### 3. Stop serving the lexicon from the root
+### 3. Stop serving the lexicon from the root &mdash; done (no code of its own; step 1's list did it)
 
 Nothing outside that list is served any more, so the word list is no longer sitting at
 the top of the hierarchy where the hub will go.
