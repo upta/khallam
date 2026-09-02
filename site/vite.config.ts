@@ -67,6 +67,10 @@ export default defineConfig({
     ],
   },
   server: {
+    // One website, one address. Sliding to the next free port hides a server left
+    // running from yesterday and hands you the wrong site without saying so.
+    port: 5173,
+    strictPort: true,
     // The kit allows the folders the recordings and the Klallam font come from. This
     // covers the site itself and the games it places.
     fs: {

@@ -89,7 +89,7 @@ own server.
 **Done when:** asking for the lexicon review page opens the words at the site's own
 address, and no second server starts.
 
-### 5. The site keeps its address instead of sliding to the next free one
+### 5. The site keeps its address instead of sliding to the next free one &mdash; done
 
 Pin the port, and refuse to start on a different one. A second attempt then stops with
 a plain "that port is taken" instead of quietly opening somewhere else.
