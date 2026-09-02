@@ -1,6 +1,7 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { AUDIO_DIR, LEXICON_DIR, LEXICON_JSON } from "./lib.mjs";
 
 const PORT = Number(process.env.PORT ?? 5174);
@@ -24,7 +25,7 @@ function fileFor(requested) {
   return null;
 }
 
-const server = http.createServer((req, res) => {
+function handleRequest(req, res) {
   const requested = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
 
   // Without the trailing slash the page asks for its word list a folder too high and comes up empty.
@@ -56,9 +57,15 @@ const server = http.createServer((req, res) => {
     "Cache-Control": "no-store",
   });
   fs.createReadStream(resolved).pipe(res);
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`Lexicon review page: http://localhost:${PORT}/review/`);
-  console.log("Press Ctrl+C to stop.");
-});
+export function createReviewServer() {
+  return http.createServer(handleRequest);
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  createReviewServer().listen(PORT, () => {
+    console.log(`Lexicon review page: http://localhost:${PORT}/review/`);
+    console.log("Press Ctrl+C to stop.");
+  });
+}

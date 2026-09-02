@@ -71,7 +71,7 @@ the top of the hierarchy where the hub will go.
 **Done when:** `http://localhost:5174/lexicon.json` comes back "not found", and the page
 at `/review/` still lists words.
 
-### 4. A test, so it cannot quietly come undone
+### 4. A test, so it cannot quietly come undone &mdash; done
 
 Start the server on a spare port and check four things: the page answers, the word list
 answers, a recording answers, and the old root address for the word list does not.
