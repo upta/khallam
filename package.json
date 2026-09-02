@@ -30,7 +30,7 @@
     "site:build": "npm run build -w @klallam/site && node tools/site/build-site.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test && npm run game:build && npm run site:build"
+    "ci": "npm run guard:ascii && npm run typecheck && npm run lexicon:verify && npm test && npm run site:build"
   },
   "devDependencies": {
     "typescript": "^5.6.3"

@@ -41,7 +41,7 @@ rename the profile to match. Doing this first means F5 is never broken in betwee
 **Done when:** pressing F5 opens the site with the chapters listed, and clicking into
 FishyBird plays a round with sound.
 
-### 2. The checks stop building a site that is about to not exist
+### 2. The checks stop building a site that is about to not exist &mdash; done
 
 `ci` currently builds FishyBird on its own. Remove that. Building the site compiles
 FishyBird already, so nothing stops being checked &mdash; and if that turns out to be
