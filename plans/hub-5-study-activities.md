@@ -113,13 +113,20 @@ unmatched with the round carrying on, then all six pairs went in and the header 
 never look wrong. Points are awarded pair by pair, but the header only catches up when
 the round ends.
 
-### 6. Delete the draft page
+### 6. Delete the draft page &mdash; blocked
 
 `original-site.html` and the reading command from plan 1 both come out. Everything they
 carried is either in the lexicon or in the site.
 
 **Done when:** neither file exists, `npm run ci` passes, and the site still shows every
 chapter with the same word counts as before.
+
+Not done, and nothing was deleted. The gap command still reports one word in the draft
+that the lexicon does not have &mdash; the noun glossed *uncle or aunt*, whose spelling
+on the page differs from the lexicon's *uncle, aunt* &mdash; and four words the page and
+the lexicon spell differently: *stick*, *strong*, *you* and *cow*. Deleting the page
+would throw those away. It waits on the spreadsheet and on a speaker settling the four
+spellings.
 
 ## Risks
 
