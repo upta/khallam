@@ -2,20 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Play FishyBird",
+      "name": "Open the site",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}/games/fishybird",
-      "preLaunchTask": "fishybird: dev server"
+      "webRoot": "${workspaceFolder}/site",
+      "preLaunchTask": "site: dev server"
     },
     {
-      "name": "Play FishyBird (Edge)",
+      "name": "Open the site (Edge)",
       "type": "msedge",
       "request": "launch",
       "url": "http://localhost:5173",
-      "webRoot": "${workspaceFolder}/games/fishybird",
-      "preLaunchTask": "fishybird: dev server"
+      "webRoot": "${workspaceFolder}/site",
+      "preLaunchTask": "site: dev server"
     }
   ]
 }

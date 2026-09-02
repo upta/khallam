@@ -33,7 +33,7 @@ than a loss.
 
 ## Steps
 
-### 1. F5 opens the site
+### 1. F5 opens the site &mdash; done
 
 Point the launch profile and its background task at the site rather than the game, and
 rename the profile to match. Doing this first means F5 is never broken in between.

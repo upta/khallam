@@ -2,9 +2,9 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "fishybird: dev server",
+      "label": "site: dev server",
       "type": "npm",
-      "script": "game:dev",
+      "script": "site:dev",
       "isBackground": true,
       "presentation": {
         "reveal": "silent",
