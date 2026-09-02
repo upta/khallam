@@ -20,15 +20,19 @@ Plan 4, finished.
 
 ## Background you need to read the steps
 
-FishyBird only ever shows a word that has a recording and has been confirmed by a
-speaker, because a game that says a word out loud has no business saying an unconfirmed
-one. That rule is baked into how it asks the lexicon for words.
+Every game is handed its words by the site, as a list of ids, and the kit turns that
+list into entries. Today the kit narrows what it is handed to words safe to say out
+loud: confirmed by a speaker, and with a recording. An id for anything else is quietly
+dropped. That is right for FishyBird, which says every word aloud, and wrong for these
+four.
 
-These four cannot use that rule. Most of what you are adding &mdash; the subject
-pronouns especially &mdash; will never have a recording, and a flashcard showing a
-written word does not need one. So the kit needs a second way of asking: give me the
-words for this chapter, confirmed, recording or not, and tell each game whether a given
-word can be heard so it can offer a play button only where there is something to play.
+Most of what you are adding &mdash; the subject pronouns especially &mdash; will never
+have a recording, and a flashcard showing a written word does not need one. So two
+things change. The site decides what each game is given: FishyBird keeps being handed
+only words that can be spoken, while these four are handed their chapter's confirmed
+words whether or not there is audio. And the kit stops dropping a handed-over word for
+having no recording, saying instead which of them can be heard, so a game shows a play
+button only where there is something to play.
 
 Everything else is the same contract FishyBird already uses. Each game is registered
 with the kit, handed a set of words and a way to report points, and drawn inside its own
@@ -36,14 +40,14 @@ sealed-off area. None of them knows the site exists.
 
 ## Steps
 
-### 1. Let a game ask for words that have no recording
+### 1. Let a game be handed words that have no recording
 
-The kit gains a way to request a chapter's confirmed words whether or not they have
-audio, and tells each game which of them can be played aloud. FishyBird carries on
-asking the way it does today and is unaffected.
+The site decides what each game gets. The kit stops dropping a word it was handed for
+having no recording, and tells each game which of its words can be heard. FishyBird is
+unaffected, because it carries on being handed only words that can be spoken.
 
-**Done when:** FishyBird still refuses to show a word without a recording, and a test
-shows the new request returning words that have none.
+**Done when:** FishyBird still never shows a word without a recording, and a game handed
+a word that has none keeps it, marked as having nothing to play.
 
 ### 2. The word list
 
