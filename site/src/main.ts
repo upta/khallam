@@ -45,6 +45,13 @@ const GAMES: GameTab[] = [
     load: () => import("@klallam/fishybird"),
   },
   {
+    id: "flashcards",
+    label: "Flashcards",
+    icon: "\u{1F4C7}",
+    wordsToHand: (chapter) => chapterWordIds(chapter),
+    load: () => import("@klallam/flashcards"),
+  },
+  {
     id: "wordlist",
     label: "Words",
     icon: "\u{1F4D6}",

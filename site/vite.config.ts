@@ -19,6 +19,7 @@ export default defineConfig({
       "@klallam/lexicon",
       "@klallam/game-kit",
       "@klallam/fishybird",
+      "@klallam/flashcards",
       "@klallam/wordlist",
     ],
   },

@@ -1,0 +1,19 @@
+{
+  "name": "@klallam/flashcards",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Flashcards: a chapter's words, Klallam on the front, English on the back.",
+  "main": "./src/main.ts",
+  "types": "./src/main.ts",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "dependencies": {
+    "@klallam/game-kit": "*",
+    "@klallam/lexicon": "*"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

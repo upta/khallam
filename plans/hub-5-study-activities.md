@@ -71,13 +71,18 @@ Every chapter's list is now exactly as long as the number on its card. Of Ch. 1.
 words, 4 have a recording and so 4 have a play button; the subject pronouns have none
 at all, and read perfectly well without.
 
-### 3. Flashcards
+### 3. Flashcards &mdash; done
 
 A card showing the Klallam, tapping flips it to the English, arrow keys and buttons move
 through the chapter, and a shuffle button reorders it. As drafted.
 
 **Done when:** you can go through a whole chapter with the keyboard, flip every card,
 shuffle, and land back at the first card.
+
+Walked Ch. 1.1 end to end: eleven different cards, then round to the first again, and
+left from the first goes to the last. Moving to another card always turns it back to the
+Klallam side. My test harness could not deliver real key presses to the page, so the
+arrow keys are the one thing you should try yourself.
 
 ### 4. The quiz
 
