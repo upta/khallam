@@ -84,7 +84,7 @@ left from the first goes to the last. Moving to another card always turns it bac
 Klallam side. My test harness could not deliver real key presses to the page, so the
 arrow keys are the one thing you should try yourself.
 
-### 4. The quiz
+### 4. The quiz &mdash; done
 
 Shows a Klallam word and four English meanings, one right. Says which was right, scores
 it, and totals up at the end. As drafted.
@@ -92,6 +92,12 @@ it, and totals up at the end. As drafted.
 **Done when:** a full chapter's quiz can be played to the end, a wrong answer shows the
 right one, and the points earned appear in the site's header and are still there after
 a refresh.
+
+Played Ch. 1.1's eleven questions through: four different meanings offered every time,
+never the same meaning twice, the right one always named after answering. The header
+went from 0 to 20 points and still read 20 after a reload. The header only catches up
+when a round ends, which is also when the points are awarded. A chapter without four
+different meanings says so rather than failing; no chapter is in that position today.
 
 ### 5. The matching game
 

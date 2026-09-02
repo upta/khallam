@@ -1,12 +1,22 @@
 import { getChapters, getWords, type Chapter } from "@klallam/lexicon";
-import { ensureKlallamFont, getPoints, placeGame } from "@klallam/game-kit";
+import {
+  ensureKlallamFont,
+  getPoints,
+  placeGame,
+  GAME_FINISHED_EVENT,
+} from "@klallam/game-kit";
 import "./style.css";
 
 // Loaded before anything shows a word, so no Klallam is ever drawn in a fallback font.
 void ensureKlallamFont();
 
 const score = document.querySelector("#total-score");
-if (score !== null) score.textContent = String(getPoints());
+
+function showPoints(): void {
+  if (score !== null) score.textContent = String(getPoints());
+}
+
+showPoints();
 
 interface Decoration {
   color: string;
@@ -50,6 +60,13 @@ const GAMES: GameTab[] = [
     icon: "\u{1F4C7}",
     wordsToHand: (chapter) => chapterWordIds(chapter),
     load: () => import("@klallam/flashcards"),
+  },
+  {
+    id: "quiz",
+    label: "Quiz",
+    icon: "\u2753",
+    wordsToHand: (chapter) => chapterWordIds(chapter),
+    load: () => import("@klallam/quiz"),
   },
   {
     id: "wordlist",
@@ -200,5 +217,7 @@ function showWhatTheAddressAsksFor(scroll: boolean): void {
 }
 
 if (grid !== null) grid.replaceChildren(...getChapters().map(chapterCard));
+// A game awards its points as a round ends, which is when the header can catch up.
+panelBody?.addEventListener(GAME_FINISHED_EVENT, showPoints);
 window.addEventListener("popstate", () => showWhatTheAddressAsksFor(false));
 showWhatTheAddressAsksFor(true);

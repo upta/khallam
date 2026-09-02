@@ -14,6 +14,7 @@
     "@klallam/flashcards": "*",
     "@klallam/game-kit": "*",
     "@klallam/lexicon": "*",
+    "@klallam/quiz": "*",
     "@klallam/wordlist": "*"
   },
   "devDependencies": {

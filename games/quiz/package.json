@@ -1,0 +1,19 @@
+{
+  "name": "@klallam/quiz",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The quiz: a Klallam word and four English meanings, one of them right.",
+  "main": "./src/main.ts",
+  "types": "./src/main.ts",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "dependencies": {
+    "@klallam/game-kit": "*",
+    "@klallam/lexicon": "*"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}
