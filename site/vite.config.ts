@@ -28,8 +28,16 @@ function reviewPage(): Plugin {
     apply: "serve",
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        const pathname = new URL(req.url ?? "/", "http://localhost").pathname;
-        const match = served.get(decodeURIComponent(pathname));
+        const pathname = decodeURIComponent(new URL(req.url ?? "/", "http://localhost").pathname);
+
+        // Without the slash the dev server falls back to the hub, which reads as
+        // nothing having happened rather than as a wrong address.
+        if (pathname === "/review") {
+          res.writeHead(302, { Location: "/review/" }).end();
+          return;
+        }
+
+        const match = served.get(pathname);
         if (match === undefined) return next();
 
         res.setHeader("Content-Type", match.type);

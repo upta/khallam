@@ -57,7 +57,7 @@ nothing to add for those.
 **Done when:** with the site running, `/review/` lists every word and plays a
 recording when you click one.
 
-### 2. The address without the trailing slash lands on the words
+### 2. The address without the trailing slash lands on the words &mdash; done
 
 `/review` redirects to `/review/`. Without this the dev server falls back to handing
 back the hub, which is the "the page just refreshed" failure, and it will happen to
