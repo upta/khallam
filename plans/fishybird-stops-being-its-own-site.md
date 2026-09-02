@@ -61,7 +61,7 @@ start.
 **Done when:** FishyBird still plays a full round with sound inside the site, started
 with F5.
 
-### 4. Say it in the README
+### 4. Say it in the README &mdash; done
 
 The command list should not offer a way to start a game by itself, because there is not
 one any more.

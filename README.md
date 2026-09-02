@@ -170,6 +170,7 @@ Requires Node 20 or newer.
 npm run lexicon:import              # validate, diff, report - writes nothing
 npm run lexicon:import -- --apply   # apply, then re-lock and verify
 npm run lexicon:verify              # integrity check
+npm run site:dev                    # the site: hub, games, review page, one address
 npm run lexicon:review              # start the site, open it at the review page
 npm test                            # integrity and codec tests
 npm run ci                          # everything CI runs
