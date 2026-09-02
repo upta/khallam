@@ -85,7 +85,7 @@ In `README.md`, under *Checking the words*, change the link to the new address.
 **Done when:** clicking the link in the README, with the server running, opens a page
 with words on it.
 
-### 6. Prove the published site did not move
+### 6. Prove the published site did not move &mdash; done
 
 Run `npm run site:build`, serve `dist/` under a `/khallam/` sub-folder the way GitHub
 Pages does, and open the review page there. Nothing in this plan touches the published
