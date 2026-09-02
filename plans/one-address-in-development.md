@@ -97,7 +97,7 @@ a plain "that port is taken" instead of quietly opening somewhere else.
 **Done when:** with the site already running, starting it again fails and says why,
 rather than opening on a different address.
 
-### 6. Say it in the README and in the word-changing instructions
+### 6. Say it in the README and in the word-changing instructions &mdash; done
 
 Update *Checking the words* and the command list in `README.md`, and the two places
 `.claude/skills/update-lexicon/SKILL.md` names the review command.

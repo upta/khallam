@@ -67,7 +67,7 @@ put back from the report. Never delete an entry by editing `lexicon.json`.
 
 Entries carry `needs_review` and `review_reasons` explaining the doubt. Clearing a
 flag requires a speaker's ruling, not a judgement call from you or the user. Run
-`npm run lexicon:review` to serve the page a speaker checks.
+`npm run lexicon:review` to open the site at the page a speaker checks.
 
 Once ruled on:
 
@@ -92,7 +92,7 @@ text, the codepoints, or the spreadsheet.
 | `npm run lexicon:flag` | Raise a review flag with a reason |
 | `npm run lexicon:verify` | Check integrity, write nothing |
 | `npm run lexicon:lock` | Accept content changes into the lock |
-| `npm run lexicon:review` | Serve the review page for a speaker to check |
+| `npm run lexicon:review` | Start the site at the review page, for a speaker to check |
 | `npm test` | Run the integrity and codec test suite |
 
 `npm run lexicon:sheet` also exists. It builds the sheet *from* the lexicon and is

@@ -100,9 +100,12 @@ review automatically, because the process cannot know who approved them.
 
 ## Checking the words
 
-Ask Claude to *"open the lexicon review page"*, then open
-**<http://localhost:5174/review/>** in your browser. It lists every word, rendered
-properly, and plays its recording.
+Ask Claude to *"open the lexicon review page"*. That starts the site and opens it at
+**<http://localhost:5173/review/>**, which lists every word, rendered properly, and
+plays its recording.
+
+It is one website: the games are at the same address, and the review page is a part of
+it rather than a thing of its own.
 
 That page is the right way to check a word: read it and listen to it. Words waiting on
 a speaker's say-so are marked, so you can work straight down the list.
@@ -167,7 +170,7 @@ Requires Node 20 or newer.
 npm run lexicon:import              # validate, diff, report - writes nothing
 npm run lexicon:import -- --apply   # apply, then re-lock and verify
 npm run lexicon:verify              # integrity check
-npm run lexicon:review              # serve the review page
+npm run lexicon:review              # start the site, open it at the review page
 npm test                            # integrity and codec tests
 npm run ci                          # everything CI runs
 ```
