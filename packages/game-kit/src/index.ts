@@ -22,6 +22,8 @@ export interface GameContext {
   readonly root: ShadowRoot;
   /** The words this game was handed, in the order they were given. */
   words(): LexiconEntry[];
+  /** False when there is no recording, so the game offers nothing to play. */
+  canPlay(entry: LexiconEntry): boolean;
   playRecording(entry: LexiconEntry): void;
   playRecordingUrl(url: string): void;
   recordingUrl(entry: LexiconEntry): string | null;
@@ -67,16 +69,18 @@ export interface PlacedGame extends HTMLElement {
   wordIds: readonly string[] | null;
 }
 
-/** Words safe to teach: confirmed text with a recording. */
+/** Words safe to say out loud: confirmed text with a recording. */
 function playableWords(): LexiconEntry[] {
   return getWords({ requireAudio: true, includeNeedsReview: false });
 }
 
 function wordsFor(ids: readonly string[] | null): LexiconEntry[] {
   if (ids === null) return playableWords();
-  const byId = new Map(playableWords().map((entry) => [entry.id, entry]));
-  // An id for a word with no recording, or one still awaiting confirmation, is not
-  // something to teach, so it is left out rather than shown.
+  const byId = new Map(
+    getWords({ includeNeedsReview: false }).map((entry) => [entry.id, entry])
+  );
+  // Text still awaiting a speaker's confirmation is left out however it was asked for.
+  // A word with no recording is kept, and the game is told it has nothing to play.
   return ids.flatMap((id) => {
     const entry = byId.get(id);
     return entry === undefined ? [] : [entry];
@@ -131,6 +135,7 @@ export function registerGame(definition: GameDefinition): string {
       const context: GameContext = {
         root,
         words: () => wordsFor(this.wordIds),
+        canPlay: (entry) => recordingUrl(entry) !== null,
         playRecording,
         playRecordingUrl,
         recordingUrl,

@@ -27,6 +27,8 @@ interface GameTab {
   id: string;
   label: string;
   icon: string;
+  /** The words this game is handed, by lexicon id. Each game asks for what it can use. */
+  words: (chapter: Chapter) => string[];
   /** Downloaded only when the game is chosen, which is what registers its tag. */
   load: () => Promise<unknown>;
 }
@@ -36,6 +38,10 @@ const GAMES: GameTab[] = [
     id: "fishybird",
     label: "FishyBird",
     icon: "\u{1F41F}",
+    // Says every word out loud, so it is handed only words that can be spoken. Every
+    // playable word for now; narrowing this to the chapter is a change here and nowhere
+    // else.
+    words: () => spokenWordIds(),
     load: () => import("@klallam/fishybird"),
   },
 ];
@@ -149,16 +155,15 @@ async function showGame(game: GameTab, chapter: Chapter): Promise<void> {
   panelBody.replaceChildren(message(`Loading ${game.label}...`));
   try {
     await game.load();
-    // Every playable word for now. Narrowing this to the chapter is a change here and
-    // nowhere else.
-    panelBody.replaceChildren(placeGame(game.id, playableWordIds()));
+    panelBody.replaceChildren(placeGame(game.id, game.words(chapter)));
   } catch (error) {
     console.error(`${game.label} did not start:`, error);
     panelBody.replaceChildren(message(`${game.label} could not be started.`));
   }
 }
 
-function playableWordIds(): string[] {
+/** Words with a recording, which are the only ones a game may say out loud. */
+function spokenWordIds(): string[] {
   return getWords({ requireAudio: true, includeNeedsReview: false }).map((entry) => entry.id);
 }
 

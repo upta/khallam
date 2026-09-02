@@ -40,7 +40,7 @@ sealed-off area. None of them knows the site exists.
 
 ## Steps
 
-### 1. Let a game be handed words that have no recording
+### 1. Let a game be handed words that have no recording &mdash; done
 
 The site decides what each game gets. The kit stops dropping a word it was handed for
 having no recording, and tells each game which of its words can be heard. FishyBird is
@@ -48,6 +48,10 @@ unaffected, because it carries on being handed only words that can be spoken.
 
 **Done when:** FishyBird still never shows a word without a recording, and a game handed
 a word that has none keeps it, marked as having nothing to play.
+
+Each game on the site now names the words it wants, and FishyBird asks for the same set
+it always had: confirmed words that have a recording. The kit still refuses to show text
+a speaker has not confirmed, whichever game asks for it; that guard did not move.
 
 ### 2. The word list
 
