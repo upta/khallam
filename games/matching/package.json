@@ -1,0 +1,19 @@
+{
+  "name": "@klallam/matching",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The matching game: pair each Klallam word with its English meaning.",
+  "main": "./src/main.ts",
+  "types": "./src/main.ts",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "dependencies": {
+    "@klallam/game-kit": "*",
+    "@klallam/lexicon": "*"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  }
+}

@@ -69,6 +69,13 @@ const GAMES: GameTab[] = [
     load: () => import("@klallam/quiz"),
   },
   {
+    id: "matching",
+    label: "Match",
+    icon: "\u{1F517}",
+    wordsToHand: (chapter) => chapterWordIds(chapter),
+    load: () => import("@klallam/matching"),
+  },
+  {
     id: "wordlist",
     label: "Words",
     icon: "\u{1F4D6}",

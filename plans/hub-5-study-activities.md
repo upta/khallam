@@ -99,13 +99,19 @@ went from 0 to 20 points and still read 20 after a reload. The header only catch
 when a round ends, which is also when the points are awarded. A chapter without four
 different meanings says so rather than failing; no chapter is in that position today.
 
-### 5. The matching game
+### 5. The matching game &mdash; done
 
 Two columns, Klallam on one side and English on the other, pick one from each to pair
 them. As drafted.
 
 **Done when:** a round can be completed, a wrong pair is rejected without ending the
 round, and finishing awards points that appear in the header.
+
+Played a round of Ch. 4: a deliberate wrong pair shook both buttons and left them
+unmatched with the round carrying on, then all six pairs went in and the header rose by
+60. Two words meaning the same thing never appear in one round, so a right pairing can
+never look wrong. Points are awarded pair by pair, but the header only catches up when
+the round ends.
 
 ### 6. Delete the draft page
 
