@@ -29,10 +29,15 @@ four.
 Most of what you are adding &mdash; the subject pronouns especially &mdash; will never
 have a recording, and a flashcard showing a written word does not need one. So two
 things change. The site decides what each game is given: FishyBird keeps being handed
-only words that can be spoken, while these four are handed their chapter's confirmed
-words whether or not there is audio. And the kit stops dropping a handed-over word for
-having no recording, saying instead which of them can be heard, so a game shows a play
-button only where there is something to play.
+only words that can be spoken, while these four are handed every word tagged with their
+chapter. And the kit stops dropping a handed-over word for having no recording, saying
+instead which of them can be heard, so a game shows a play button only where there is
+something to play.
+
+Being flagged for review does not hide a word from these four. Nearly every flag in the
+lexicon today says only that a word has no recording, so gating on it would empty most
+of the chapters. A recording is still required for FishyBird, which has to say each word
+out loud.
 
 Everything else is the same contract FishyBird already uses. Each game is registered
 with the kit, handed a set of words and a way to report points, and drawn inside its own
@@ -49,11 +54,11 @@ unaffected, because it carries on being handed only words that can be spoken.
 **Done when:** FishyBird still never shows a word without a recording, and a game handed
 a word that has none keeps it, marked as having nothing to play.
 
-Each game on the site now names the words it wants, and FishyBird asks for the same set
-it always had: confirmed words that have a recording. The kit still refuses to show text
-a speaker has not confirmed, whichever game asks for it; that guard did not move.
+The site now decides, one game at a time, which words it hands over, and the kit passes
+on whatever it is given. FishyBird is given the same set it always had: confirmed words
+that have a recording.
 
-### 2. The word list
+### 2. The word list &mdash; done
 
 The simplest of the four: the chapter's words in a table, Klallam beside English, with a
 play button on the ones that have a recording.
@@ -61,6 +66,10 @@ play button on the ones that have a recording.
 **Done when:** choosing a chapter and then the word list shows every word the lexicon
 has tagged with that chapter, the Klallam in Charis with its marks correctly placed, and
 clicking a play button plays that word.
+
+Every chapter's list is now exactly as long as the number on its card. Of Ch. 1.1's 11
+words, 4 have a recording and so 4 have a play button; the subject pronouns have none
+at all, and read perfectly well without.
 
 ### 3. Flashcards
 

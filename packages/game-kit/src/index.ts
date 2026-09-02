@@ -76,11 +76,9 @@ function playableWords(): LexiconEntry[] {
 
 function wordsFor(ids: readonly string[] | null): LexiconEntry[] {
   if (ids === null) return playableWords();
-  const byId = new Map(
-    getWords({ includeNeedsReview: false }).map((entry) => [entry.id, entry])
-  );
-  // Text still awaiting a speaker's confirmation is left out however it was asked for.
-  // A word with no recording is kept, and the game is told it has nothing to play.
+  const byId = new Map(getWords().map((entry) => [entry.id, entry]));
+  // Whatever the site hands over is what the game gets. A word with no recording is
+  // kept, and the game is told it has nothing to play.
   return ids.flatMap((id) => {
     const entry = byId.get(id);
     return entry === undefined ? [] : [entry];

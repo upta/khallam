@@ -14,7 +14,14 @@ export default defineConfig({
   plugins: [klallamAssets()],
   // These packages ship TypeScript source, so they must go through the transform
   // pipeline rather than the dependency pre-bundler.
-  optimizeDeps: { exclude: ["@klallam/lexicon", "@klallam/game-kit", "@klallam/fishybird"] },
+  optimizeDeps: {
+    exclude: [
+      "@klallam/lexicon",
+      "@klallam/game-kit",
+      "@klallam/fishybird",
+      "@klallam/wordlist",
+    ],
+  },
   server: {
     // The kit allows the folders the recordings and the Klallam font come from. This
     // covers the site itself and the games it places.

@@ -12,7 +12,8 @@
   "dependencies": {
     "@klallam/fishybird": "*",
     "@klallam/game-kit": "*",
-    "@klallam/lexicon": "*"
+    "@klallam/lexicon": "*",
+    "@klallam/wordlist": "*"
   },
   "devDependencies": {
     "vite": "^8.2.2"
