@@ -65,17 +65,9 @@ anyone who types the address by hand.
 
 **Done when:** opening `/review` lists words instead of showing the hub.
 
-### 3. Asking for the review page starts the site, not a second server
+### 3. Move the test onto the one server
 
-`lexicon:review` starts the one server and opens it at the review page. Delete
-`tools/lexicon-cli/review-server.mjs`, which now has nothing left to do.
-
-**Done when:** asking for the lexicon review page opens the words at the site's own
-address, and no second server starts.
-
-### 4. Move the test onto the one server
-
-`tests/lexicon.review-server.test.mjs` currently starts the server that step 3 deletes.
+`tests/lexicon.review-server.test.mjs` currently starts the standalone review server.
 Point it at the site's dev server instead and check four things: the review page
 answers, the word list answers beside it, a recording answers, and `/review` without
 the slash redirects rather than quietly returning the hub.
@@ -84,8 +76,18 @@ That fourth check replaces the old one about the word list not being at the root
 It is the more useful check now, because returning the hub is what this whole plan
 exists to stop.
 
+This comes before the deletion so the checks are never red in between.
+
 **Done when:** `npm run ci` passes with those four checks running against the site's
 own server.
+
+### 4. Asking for the review page starts the site, not a second server
+
+`lexicon:review` starts the one server and opens it at the review page. Delete
+`tools/lexicon-cli/review-server.mjs`, which by now has nothing pointing at it.
+
+**Done when:** asking for the lexicon review page opens the words at the site's own
+address, and no second server starts.
 
 ### 5. The site keeps its address instead of sliding to the next free one
 
