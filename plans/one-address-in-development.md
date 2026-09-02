@@ -65,7 +65,7 @@ anyone who types the address by hand.
 
 **Done when:** opening `/review` lists words instead of showing the hub.
 
-### 3. Move the test onto the one server
+### 3. Move the test onto the one server &mdash; done
 
 `tests/lexicon.review-server.test.mjs` currently starts the standalone review server.
 Point it at the site's dev server instead and check four things: the review page

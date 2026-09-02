@@ -2,29 +2,37 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { AUDIO_DIR } from "../tools/lexicon-cli/lib.mjs";
-import { createReviewServer } from "../tools/lexicon-cli/review-server.mjs";
+import { createServer } from "vite";
+import { AUDIO_DIR, REPO_ROOT } from "../tools/lexicon-cli/lib.mjs";
 
-async function withServer(run) {
-  const server = createReviewServer();
-  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+const SITE_ROOT = path.join(REPO_ROOT, "site");
+
+async function withSite(run) {
+  const server = await createServer({
+    root: SITE_ROOT,
+    configFile: path.join(SITE_ROOT, "vite.config.ts"),
+    logLevel: "silent",
+    // Any free port, so a dev server someone left running does not fail the checks.
+    server: { host: "127.0.0.1", port: 0, strictPort: false },
+  });
+  await server.listen();
   try {
-    await run(`http://127.0.0.1:${server.address().port}`);
+    await run(`http://127.0.0.1:${server.httpServer.address().port}`);
   } finally {
-    await new Promise((resolve) => server.close(resolve));
+    await server.close();
   }
 }
 
 test("the review page answers at /review/", async () => {
-  await withServer(async (base) => {
+  await withSite(async (base) => {
     const res = await fetch(`${base}/review/`);
     assert.equal(res.status, 200);
-    assert.match(await res.text(), /<html/i);
+    assert.match(await res.text(), /Klallam Lexicon Review/);
   });
 });
 
 test("the word list answers beside the page", async () => {
-  await withServer(async (base) => {
+  await withSite(async (base) => {
     const res = await fetch(`${base}/review/lexicon.json`);
     assert.equal(res.status, 200);
     const lexicon = await res.json();
@@ -38,17 +46,18 @@ test("a recording answers under /audio/", async () => {
     .find((name) => path.extname(name).toLowerCase() === ".mp3");
   assert.ok(clip, "no recordings to check against");
 
-  await withServer(async (base) => {
+  await withSite(async (base) => {
     const res = await fetch(`${base}/audio/${encodeURIComponent(clip)}`);
     assert.equal(res.status, 200);
     assert.ok((await res.arrayBuffer()).byteLength > 0);
   });
 });
 
-test("the word list is not served from the root any more", async () => {
-  await withServer(async (base) => {
-    const res = await fetch(`${base}/lexicon.json`);
+test("/review without the slash redirects rather than returning the hub", async () => {
+  await withSite(async (base) => {
+    const res = await fetch(`${base}/review`, { redirect: "manual" });
     await res.arrayBuffer();
-    assert.equal(res.status, 404);
+    assert.equal(res.status, 302);
+    assert.equal(res.headers.get("location"), "/review/");
   });
 });
