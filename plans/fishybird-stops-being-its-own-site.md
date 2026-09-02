@@ -51,7 +51,7 @@ This comes before the deletion so the checks are never red in between.
 
 **Done when:** `npm run ci` passes and no longer builds the game separately.
 
-### 3. FishyBird loses the equipment for being a site
+### 3. FishyBird loses the equipment for being a site &mdash; done
 
 Delete `games/fishybird/index.html` and `games/fishybird/vite.config.ts`, and the
 `dev`, `build` and `preview` scripts in its `package.json`. Drop `game:dev`,

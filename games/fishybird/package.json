@@ -9,11 +9,6 @@
   "exports": {
     ".": "./src/main.ts"
   },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
   "dependencies": {
     "@klallam/game-kit": "*",
     "@klallam/lexicon": "*",
