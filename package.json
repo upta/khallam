@@ -19,7 +19,7 @@
     "lexicon:mark-fix": "node tools/lexicon-cli/mark-fix.mjs",
     "lexicon:resolve": "node tools/lexicon-cli/review-flags.mjs resolve",
     "lexicon:flag": "node tools/lexicon-cli/review-flags.mjs flag",
-    "lexicon:review": "node tools/lexicon-cli/review-server.mjs",
+    "lexicon:review": "npm run dev -w @klallam/site -- --open /review/",
     "lexicon:gap": "node tools/lexicon-cli/gap.mjs",
     "guard:ascii": "node tools/lexicon-cli/ascii-guard.mjs",
     "game:dev": "npm run dev -w @klallam/fishybird",

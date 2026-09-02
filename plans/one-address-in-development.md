@@ -81,7 +81,7 @@ This comes before the deletion so the checks are never red in between.
 **Done when:** `npm run ci` passes with those four checks running against the site's
 own server.
 
-### 4. Asking for the review page starts the site, not a second server
+### 4. Asking for the review page starts the site, not a second server &mdash; done
 
 `lexicon:review` starts the one server and opens it at the review page. Delete
 `tools/lexicon-cli/review-server.mjs`, which by now has nothing pointing at it.
